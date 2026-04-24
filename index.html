@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VICTOR Energy Drink — Fuel Your Hustle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blk:#000;--dk:#080808;--s1:#0d0d0d;--s2:#141414;--s3:#1a1a1a;
+  --bdr:rgba(255,255,255,.06);--txt:#fff;--mut:rgba(255,255,255,.45);
+  --Y:#E9FF57;--R:#FF3B30;--G:#00E5A0;--B:#00BFFF;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--blk);color:var(--txt);font-family:'Barlow',sans-serif;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:'Barlow',sans-serif}
+
+/* ─── NAV ─── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px;transition:background .5s var(--ease),backdrop-filter .5s}
+#nav.solid{background:rgba(0,0,0,.93);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.1em;color:var(--Y);line-height:1}
+.nav-links{display:flex;list-style:none;align-items:center}
+.nav-links li{position:relative}
+.nav-links a,.nav-dd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7);padding:.5rem 1.1rem;display:flex;align-items:center;gap:.3rem;background:none;border:none;cursor:pointer;transition:color .2s}
+.nav-links a:hover,.nav-dd:hover{color:#fff}
+.ddmenu{position:absolute;top:100%;left:0;min-width:210px;background:#0d0d0d;border:1px solid var(--bdr);border-top:2px solid var(--Y);opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .25s,transform .25s,visibility .25s;z-index:999}
+.nav-links li:hover .ddmenu{opacity:1;visibility:visible;transform:none}
+.ddmenu a{display:block;padding:.65rem 1.1rem;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);border-bottom:1px solid var(--bdr);transition:color .2s,background .2s}
+.ddmenu a:hover{color:#fff;background:rgba(255,255,255,.04)}
+.nav-r{display:flex;align-items:center;gap:1rem}
+.cart-btn{display:flex;align-items:center;gap:.5rem;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);background:none;border:none;transition:color .2s}
+.cart-btn:hover{color:#fff}
+.cart-dot{background:var(--Y);color:#000;font-size:.6rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s}
+.cart-dot.bump{animation:bump .35s var(--ease)}
+@keyframes bump{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+.nav-order{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.55rem 1.4rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .2s}
+.nav-order:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(233,255,87,.45)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
+.ham span{width:22px;height:1.5px;background:#fff;display:block;transition:all .3s}
+@media(max-width:900px){.nav-links,.nav-r .nav-order{display:none}.ham{display:flex}}
+.mob-menu{display:none;position:fixed;inset:0;background:#000;z-index:950;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:rgba(255,255,255,.7);transition:color .2s}
+.mob-menu a:hover{color:var(--Y)}
+.mob-x{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:#fff;font-size:2rem;line-height:1}
+
+/* ─── HERO ─── */
+#hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding-bottom:clamp(4rem,8vw,7rem)}
+.hero-video-bg{position:absolute;inset:0;z-index:0}
+/* Animated gradient simulating video */
+.hero-video-bg::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#000 0%,#050500 50%,#000 100%);animation:heroBgShift 8s ease-in-out infinite alternate}
+.hero-video-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 55% 40%,rgba(233,255,87,.09) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 80% 70%,rgba(255,50,50,.07) 0%,transparent 50%),radial-gradient(ellipse 40% 50% at 15% 75%,rgba(0,220,150,.06) 0%,transparent 50%)}
+@keyframes heroBgShift{0%{opacity:1}100%{opacity:.7}}
+.hero-grain{position:absolute;inset:0;z-index:1;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.hero-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:80px 80px}
+/* Floating particles */
+#particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.pt{position:absolute;border-radius:50%;pointer-events:none;animation:ptRise linear infinite}
+@keyframes ptRise{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:1}90%{opacity:.3}100%{transform:translateY(-100vh) translateX(var(--dx));opacity:0}}
+/* Watermark */
+.hero-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);z-index:1;font-family:'Bebas Neue',sans-serif;font-size:clamp(12rem,28vw,30rem);line-height:.85;letter-spacing:-.02em;background:linear-gradient(180deg,rgba(233,255,87,.1) 0%,rgba(233,255,87,.02) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;user-select:none;pointer-events:none;white-space:nowrap}
+/* Layout */
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,5vw,5rem);display:grid;grid-template-columns:1fr auto 1fr;gap:3rem;align-items:flex-end}
+/* Left text */
+.hero-eyebrow{display:flex;align-items:center;gap:.75rem;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--Y);margin-bottom:1.2rem;animation:fadeUp .6s .2s var(--ease) both}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--Y)}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,8vw,8rem);line-height:.9;letter-spacing:.02em;animation:fadeUp .7s .3s var(--ease) both}
+.hero-h1 .yline{display:block;background:linear-gradient(90deg,var(--Y),#fff 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;color:var(--mut);line-height:1.8;max-width:330px;margin-top:1.1rem;animation:fadeUp .7s .42s var(--ease) both}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem;animation:fadeUp .7s .55s var(--ease) both}
+.btn-pri{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:.9rem 2.2rem;border:none;border-radius:3px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s}
+.btn-pri::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .2s}
+.btn-pri:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(233,255,87,.5)}
+.btn-pri:hover::after{background:rgba(255,255,255,.1)}
+.btn-ghost{background:transparent;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:.9rem 2.2rem;border:1.5px solid rgba(255,255,255,.2);border-radius:3px;transition:border-color .2s,color .2s,transform .2s}
+.btn-ghost:hover{border-color:var(--Y);color:var(--Y);transform:translateY(-3px)}
+/* Center can — 3D tilt */
+.hero-can-stage{display:flex;align-items:flex-end;justify-content:center;position:relative}
+.hero-can-glow{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:200px;height:60px;background:var(--Y);border-radius:50%;filter:blur(50px);opacity:.3;animation:glowBob 3s ease-in-out infinite}
+@keyframes glowBob{0%,100%{opacity:.2;transform:translateX(-50%) scaleX(1)}50%{opacity:.45;transform:translateX(-50%) scaleX(1.25)}}
+#heroCanWrapper{width:clamp(180px,22vw,260px);animation:heroFloat 4.5s ease-in-out infinite,fadeUp .9s .6s var(--ease) both;position:relative;z-index:2;filter:drop-shadow(0 60px 80px rgba(0,0,0,.95));transform-style:preserve-3d;perspective:800px;cursor:pointer}
+@keyframes heroFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-22px) rotate(1.5deg)}}
+#heroCanWrapper svg{width:100%;height:auto;display:block}
+/* Right stats */
+.hero-stats{display:flex;flex-direction:column;gap:1.8rem;align-items:flex-end;padding-bottom:1.5rem}
+.hstat{text-align:right;animation:fadeUp .6s var(--ease) both}
+.hstat:nth-child(1){animation-delay:.6s}.hstat:nth-child(2){animation-delay:.72s}.hstat:nth-child(3){animation-delay:.84s}
+.hstat .big{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;line-height:1;color:#fff}
+.hstat .big em{color:var(--Y);font-style:normal}
+.hstat .sm{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+/* Scroll cue */
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;font-family:'Barlow Condensed',sans-serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);z-index:2;animation:fadeUp .6s 1.3s var(--ease) both}
+.scroll-bar{width:1px;height:48px;background:linear-gradient(transparent,var(--Y),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.5);transform-origin:top}50%{opacity:1;transform:scaleY(1);transform-origin:top}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr;justify-items:center;text-align:center;gap:2rem}.hero-can-stage{order:-1}.hero-eyebrow::before{display:none}.hero-sub{max-width:100%}.hero-btns{justify-content:center}.hero-stats{flex-direction:row;align-items:center;justify-content:center}.hstat{text-align:center}}
+
+/* ─── SOCIAL PROOF TICKER (live counter + media bar) ─── */
+.proof-bar{background:var(--Y);padding:.85rem 0;overflow:hidden;position:relative}
+.proof-track{display:flex;width:max-content;animation:ticker 22s linear infinite}
+.proof-item{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;color:#000;padding:0 2.8rem;white-space:nowrap}
+.proof-item::after{content:' ⚡ '}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── LIVE FOMO BAR ─── */
+.fomo-bar{background:rgba(0,0,0,.95);border-bottom:1px solid var(--bdr);padding:.6rem 2rem;display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;position:relative;z-index:10}
+.fomo-item{display:flex;align-items:center;gap:.5rem;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.fomo-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.fomo-num{color:var(--Y);font-size:.95rem}
+.fomo-sep{width:1px;height:16px;background:var(--bdr)}
+#countdown{color:var(--Y);font-size:.95rem;font-variant-numeric:tabular-nums}
+
+/* ─── MEDIA BAR ─── */
+.media-bar{background:var(--s1);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:1.2rem 0;overflow:hidden}
+.media-track{display:flex;width:max-content;animation:ticker 30s linear infinite;align-items:center}
+.media-item{display:flex;align-items:center;gap:.5rem;padding:0 3rem;opacity:.35;transition:opacity .3s;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.media-item:hover{opacity:.7}
+.media-logo{font-size:1.1rem}
+
+/* ─── FLAVOR SECTION ─── */
+#flavors{background:#000}
+.flavor-nav{display:flex;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:68px;z-index:800;background:rgba(4,4,4,.97);backdrop-filter:blur(24px);overflow-x:auto;scrollbar-width:none}
+.flavor-nav::-webkit-scrollbar{display:none}
+.fnav-btn{flex:1;min-width:160px;background:none;border:none;border-bottom:3px solid transparent;color:rgba(255,255,255,.4);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;padding:1.1rem 1rem;cursor:pointer;transition:color .25s,border-color .25s;white-space:nowrap}
+.fnav-btn.active{color:#fff;border-bottom-color:var(--Y)}
+.flavor-panel{display:none;width:100%;min-height:88vh;position:relative;overflow:hidden}
+.flavor-panel.active{display:block}
+.flavor-panel[data-f="strawberry"]{background:radial-gradient(ellipse 80% 100% at 72% 42%,#280010 0%,#100006 50%,#040001 100%)}
+.flavor-panel[data-f="coconut"]{background:radial-gradient(ellipse 80% 100% at 72% 42%,#002814 0%,#001008 50%,#000402 100%)}
+.flavor-panel[data-f="blueberry"]{background:radial-gradient(ellipse 80% 100% at 72% 42%,#0e052e 0%,#060218 50%,#020008 100%)}
+.fp-glow{position:absolute;inset:0;pointer-events:none;z-index:0}
+.flavor-panel[data-f="strawberry"] .fp-glow{background:radial-gradient(ellipse 60% 70% at 72% 50%,rgba(255,60,90,.3) 0%,transparent 60%)}
+.flavor-panel[data-f="coconut"] .fp-glow{background:radial-gradient(ellipse 60% 70% at 72% 50%,rgba(0,220,130,.24) 0%,transparent 60%)}
+.flavor-panel[data-f="blueberry"] .fp-glow{background:radial-gradient(ellipse 60% 70% at 72% 50%,rgba(150,90,255,.35) 0%,transparent 60%)}
+.fp-gridlines{position:absolute;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
+.fp-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;min-height:88vh}
+/* Text col */
+.fp-txt{display:flex;flex-direction:column;justify-content:center;padding:clamp(4rem,8vw,7rem) clamp(2rem,5vw,5rem)}
+.fp-eye{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem}
+.fp-eye::before{content:'';width:28px;height:1px;flex-shrink:0}
+.flavor-panel[data-f="strawberry"] .fp-eye{color:#ff6b8a}.flavor-panel[data-f="strawberry"] .fp-eye::before{background:#ff6b8a}
+.flavor-panel[data-f="coconut"] .fp-eye{color:#00e593}.flavor-panel[data-f="coconut"] .fp-eye::before{background:#00e593}
+.flavor-panel[data-f="blueberry"] .fp-eye{color:#a78bfa}.flavor-panel[data-f="blueberry"] .fp-eye::before{background:#a78bfa}
+.fp-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,8vw,9rem);line-height:.88;color:#fff;margin-bottom:1.3rem}
+.flavor-panel[data-f="strawberry"] .fp-name{text-shadow:0 0 100px rgba(255,60,90,.55)}
+.flavor-panel[data-f="coconut"] .fp-name{text-shadow:0 0 100px rgba(0,220,130,.4)}
+.flavor-panel[data-f="blueberry"] .fp-name{text-shadow:0 0 100px rgba(150,90,255,.55)}
+.fp-desc{font-size:1rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1.85;max-width:400px;margin-bottom:2rem}
+.fp-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem}
+.fp-tag{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+.flavor-panel[data-f="strawberry"] .fp-tag.hi{border-color:rgba(255,107,138,.5);color:#ff6b8a;background:rgba(255,107,138,.08)}
+.flavor-panel[data-f="coconut"] .fp-tag.hi{border-color:rgba(0,229,147,.5);color:#00e593;background:rgba(0,229,147,.08)}
+.flavor-panel[data-f="blueberry"] .fp-tag.hi{border-color:rgba(167,139,250,.5);color:#a78bfa;background:rgba(167,139,250,.08)}
+.fp-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.fp-bp{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;padding:.9rem 2.2rem;border:none;border-radius:3px;cursor:pointer;transition:transform .2s,box-shadow .3s}
+.flavor-panel[data-f="strawberry"] .fp-bp{background:#ff6b8a;color:#000}
+.flavor-panel[data-f="strawberry"] .fp-bp:hover{box-shadow:0 12px 36px rgba(255,60,90,.6);transform:translateY(-3px)}
+.flavor-panel[data-f="coconut"] .fp-bp{background:#00e593;color:#000}
+.flavor-panel[data-f="coconut"] .fp-bp:hover{box-shadow:0 12px 36px rgba(0,200,130,.6);transform:translateY(-3px)}
+.flavor-panel[data-f="blueberry"] .fp-bp{background:#a78bfa;color:#000}
+.flavor-panel[data-f="blueberry"] .fp-bp:hover{box-shadow:0 12px 36px rgba(150,90,255,.6);transform:translateY(-3px)}
+.fp-bg{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;padding:.9rem 2.2rem;background:transparent;color:rgba(255,255,255,.55);border:1.5px solid rgba(255,255,255,.15);border-radius:3px;cursor:pointer;transition:all .2s}
+.fp-bg:hover{border-color:rgba(255,255,255,.5);color:#fff;transform:translateY(-3px)}
+/* Can col */
+.fp-can-col{display:flex;align-items:center;justify-content:center;position:relative;min-height:88vh;overflow:hidden}
+.fp-blob{position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(100px);z-index:0;animation:blobAnim 4s ease-in-out infinite}
+@keyframes blobAnim{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.2);opacity:.55}}
+.flavor-panel[data-f="strawberry"] .fp-blob{background:radial-gradient(circle,rgba(255,60,90,.7),rgba(200,0,40,.3))}
+.flavor-panel[data-f="coconut"] .fp-blob{background:radial-gradient(circle,rgba(0,229,147,.6),rgba(0,160,100,.25))}
+.flavor-panel[data-f="blueberry"] .fp-blob{background:radial-gradient(circle,rgba(167,139,250,.7),rgba(100,50,220,.3))}
+.fp-can-wrap{position:relative;z-index:2;width:clamp(220px,24vw,320px);animation:fpFloat 5s ease-in-out infinite;filter:drop-shadow(0 40px 80px rgba(0,0,0,.95))}
+.fp-can-wrap svg{width:100%;height:auto;display:block;overflow:visible}
+@keyframes fpFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-24px) rotate(2deg)}}
+/* Price badge */
+.fp-badge{position:absolute;bottom:12%;right:8%;z-index:3;background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:.9rem 1.3rem;text-align:center}
+.fp-badge .bl{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.2rem}
+.fp-badge .bv{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#fff;line-height:1}
+.fp-badge .bo{font-size:.75rem;color:rgba(255,255,255,.3);text-decoration:line-through}
+@media(max-width:768px){.fp-inner{grid-template-columns:1fr}.fp-can-col{min-height:50vw;order:-1}.fp-blob{width:250px;height:250px}.fp-badge{display:none}}
+
+/* ─── STICKY ADD-TO-CART BAR ─── */
+#sticky-bar{position:fixed;bottom:-80px;left:0;right:0;z-index:850;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.1);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;transition:bottom .4s var(--ease)}
+#sticky-bar.visible{bottom:0}
+.sb-info{display:flex;align-items:center;gap:1rem}
+.sb-flavor{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em}
+.sb-price{font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;color:var(--mut)}
+.sb-price strong{color:var(--Y);margin-right:.3rem}
+.sb-btn{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:.75rem 2rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.sb-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(233,255,87,.5)}
+@media(max-width:600px){.sb-price{display:none}}
+
+/* ─── PRODUCT GRID ─── */
+.prods-sec{background:var(--s1);border-top:1px solid var(--bdr)}
+.prods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--bdr);margin-top:3rem}
+.prod-card{background:var(--dk);padding:3rem 2rem;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;cursor:pointer;transition:background .3s}
+.prod-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
+.prod-card:hover{background:var(--s2)}
+.prod-card[data-c="s"]:hover::after{background:#ff6b8a}
+.prod-card[data-c="c"]:hover::after{background:#00e593}
+.prod-card[data-c="b"]:hover::after{background:#a78bfa}
+.prod-can-wrap{height:200px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}
+.prod-can-wrap svg{width:88px;height:auto;display:block;overflow:visible;transition:transform .4s var(--ease),filter .4s}
+.prod-card:hover .prod-can-wrap svg{transform:translateY(-14px) scale(1.06);filter:drop-shadow(0 24px 40px rgba(0,0,0,.8))}
+.pname{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;margin-bottom:.3rem}
+.psub{font-size:.75rem;font-weight:300;color:var(--mut);margin-bottom:1.1rem}
+.pprice{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.85rem}
+.pprice s{color:var(--mut);margin-left:.4rem;font-weight:400}
+.padd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1.4rem;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.65);border-radius:3px;transition:all .25s}
+.prod-card:hover .padd{border-color:var(--Y);color:var(--Y)}
+@media(max-width:900px){.prods-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.prods-grid{grid-template-columns:1fr}}
+
+/* ─── FORMULA ─── */
+.formula-sec{background:#000;border-top:1px solid var(--bdr)}
+.formula-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:3.5rem;border:1px solid var(--bdr)}
+.ingr{background:var(--dk);padding:2.5rem 1.6rem;position:relative;overflow:hidden;transition:background .3s}
+.ingr:hover{background:var(--s2)}
+.ingr::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--Y);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.ingr:hover::before{transform:scaleX(1)}
+.ingr-n{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:rgba(255,255,255,.04);position:absolute;top:.4rem;right:.6rem;line-height:1}
+.ingr-ico{font-size:1.8rem;margin-bottom:1.1rem;display:block}
+.ingr-name{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;margin-bottom:.4rem}
+.ingr-amt{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--Y);margin-bottom:.75rem}
+.ingr-desc{font-size:.83rem;font-weight:300;color:var(--mut);line-height:1.7}
+@media(max-width:900px){.formula-grid{grid-template-columns:1fr 1fr}.ingr:last-child{grid-column:1/-1}}
+@media(max-width:480px){.formula-grid{grid-template-columns:1fr}}
+
+/* ─── OFFERS ─── */
+.offers-sec{background:var(--s1);border-top:1px solid var(--bdr)}
+.offers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;margin-top:3rem;border:1px solid var(--bdr)}
+.off{background:var(--dk);padding:3rem 2.5rem;position:relative;overflow:hidden;transition:background .3s}
+.off:hover{background:var(--s3)}
+.off-strip{position:absolute;top:0;left:0;right:0;height:3px}
+.off:nth-child(1) .off-strip{background:var(--Y)}
+.off:nth-child(2) .off-strip{background:#ff6b8a}
+.off:nth-child(3) .off-strip{background:#00e593}
+.off:nth-child(4) .off-strip{background:#a78bfa}
+.off:nth-child(5) .off-strip{background:var(--B)}
+.off.featured{background:linear-gradient(145deg,rgba(233,255,87,.05),var(--dk))}
+.off-badge{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--Y);color:#000;padding:.2rem .65rem;border-radius:2px;margin-bottom:.9rem}
+.off-pct{font-family:'Bebas Neue',sans-serif;font-size:5rem;line-height:1;color:#fff;margin-bottom:.3rem}
+.off-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.55rem}
+.off-desc{font-size:.84rem;font-weight:300;color:var(--mut);line-height:1.7;margin-bottom:1.8rem}
+/* Countdown on launch offer */
+.off-timer{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--Y);letter-spacing:.08em;margin-bottom:1.2rem;display:flex;gap:.5rem;align-items:center}
+.t-sep{color:rgba(255,255,255,.3);font-size:1.4rem}
+.off-cta{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:.75rem 1.8rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .2s}
+.off-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(233,255,87,.45)}
+.off-cta-g{background:transparent;color:rgba(255,255,255,.55);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:.73rem 1.8rem;border:1.5px solid rgba(255,255,255,.12);border-radius:3px;transition:all .2s}
+.off-cta-g:hover{border-color:rgba(255,255,255,.4);color:#fff;transform:translateY(-2px)}
+
+/* ─── INSTAGRAM SOCIAL WALL ─── */
+.igwall-sec{background:#000;border-top:1px solid var(--bdr);overflow:hidden}
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:3rem}
+.ig-card{aspect-ratio:1;position:relative;overflow:hidden;cursor:pointer;background:var(--dk)}
+.ig-card::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .3s;z-index:1}
+.ig-card:hover::before{background:rgba(0,0,0,.55)}
+.ig-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;transition:transform .4s var(--ease);position:relative}
+.ig-card:hover .ig-inner{transform:scale(1.08)}
+.ig-overlay{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.ig-card:hover .ig-overlay{opacity:1}
+.ig-overlay span{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-align:center;padding:.3rem .7rem}
+/* Color themes */
+.ig-card:nth-child(1){background:linear-gradient(135deg,#1a0010,#3d0020)}
+.ig-card:nth-child(2){background:linear-gradient(135deg,#001a0a,#003d1a)}
+.ig-card:nth-child(3){background:linear-gradient(135deg,#050015,#0f0035)}
+.ig-card:nth-child(4){background:linear-gradient(135deg,#1a0010,#3d0020)}
+.ig-card:nth-child(5){background:linear-gradient(135deg,#1a1000,#3d2800)}
+.ig-card:nth-child(6){background:linear-gradient(135deg,#001a0a,#003d1a)}
+@media(max-width:768px){.ig-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ─── REVIEWS ─── */
+.reviews-sec{background:var(--s1);border-top:1px solid var(--bdr)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3rem;border:1px solid var(--bdr)}
+.rev-card{background:var(--dk);padding:2.2rem;transition:background .3s}
+.rev-card:hover{background:var(--s2)}
+.rev-stars{color:var(--Y);font-size:.9rem;letter-spacing:.15em;margin-bottom:.9rem}
+.rev-card blockquote{font-size:.92rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.65);margin-bottom:1.4rem;font-style:italic}
+.rev-auth{display:flex;align-items:center;gap:.75rem}
+.rev-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;color:#000;flex-shrink:0}
+.rev-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.05em}
+.rev-role{font-size:.73rem;color:var(--mut)}
+@media(max-width:768px){.rev-grid{grid-template-columns:1fr}}
+
+/* ─── CTA ─── */
+.cta-sec{min-height:65vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;background:#000;border-top:1px solid var(--bdr)}
+.cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(233,255,87,.08),transparent 65%)}
+.cta-inner{position:relative;z-index:2;padding:4rem 2rem}
+.cta-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--Y);display:block;margin-bottom:1.2rem}
+.cta-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,10rem);line-height:.9;margin-bottom:1.5rem}
+.cta-sub{font-size:1rem;font-weight:300;color:var(--mut);max-width:460px;margin:0 auto 2.5rem;line-height:1.8}
+
+/* ─── FOOTER ─── */
+footer{background:var(--dk);border-top:1px solid var(--bdr);padding:5rem clamp(1.5rem,5vw,5rem) 2rem}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
+.flogo{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--Y);margin-bottom:1rem;line-height:1}
+.fbrand p{font-size:.86rem;font-weight:300;color:var(--mut);line-height:1.8;max-width:280px;margin-bottom:1.5rem}
+.fsocs{display:flex;gap:.5rem}
+.fsoc{width:38px;height:38px;border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.88rem;border-radius:3px;transition:border-color .2s,background .2s}
+.fsoc:hover{border-color:var(--Y);background:rgba(233,255,87,.07)}
+.fcol h4{font-family:'Barlow Condensed',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-bottom:1.1rem}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.fcol ul a{font-size:.84rem;font-weight:300;color:rgba(255,255,255,.38);transition:color .2s}
+.fcol ul a:hover{color:#fff}
+.fb{border-top:1px solid var(--bdr);padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.fb p,.fb a{font-size:.76rem;color:rgba(255,255,255,.22)}
+.fb a:hover{color:rgba(255,255,255,.5)}
+@media(max-width:768px){.ft{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ft{grid-template-columns:1fr}}
+
+/* ─── SECTION COMMONS ─── */
+.sec{padding:clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,5rem);max-width:1400px;margin:0 auto}
+.eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--Y);display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--Y);flex-shrink:0}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,6rem);line-height:.95}
+.stitle .ac{color:var(--Y)}
+
+/* ─── REVEAL ANIMATIONS ─── */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rg>*{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.rg.in>*{opacity:1;transform:none}
+.rg.in>*:nth-child(1){transition-delay:0s}.rg.in>*:nth-child(2){transition-delay:.08s}
+.rg.in>*:nth-child(3){transition-delay:.16s}.rg.in>*:nth-child(4){transition-delay:.24s}
+.rg.in>*:nth-child(5){transition-delay:.32s}
+
+/* ─── PARTICLE EXPLOSION ─── */
+.px-particle{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;animation:pxFly .8s var(--ease) forwards}
+@keyframes pxFly{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--pxX),var(--pxY)) scale(0);opacity:0}}
+
+/* ─── MODAL ─── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(12px)}
+.overlay.open{display:flex}
+.modal{background:#0d0d0d;border:1px solid rgba(255,255,255,.08);width:100%;max-width:580px;max-height:90vh;overflow-y:auto;animation:mUp .4s var(--ease) both}
+@keyframes mUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.mhd{padding:1.8rem 2rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+.mhd h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em}
+.mx{background:none;border:none;color:rgba(255,255,255,.4);font-size:1.3rem;line-height:1;transition:color .2s}
+.mx:hover{color:#fff}
+.mb{padding:1.8rem 2rem}
+.mstep{display:none}.mstep.active{display:block}
+.ml{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.fpkg{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1.5rem}
+.fpc{background:#161616;border:1.5px solid rgba(255,255,255,.06);border-radius:3px;padding:.85rem .5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.fpc.sel{border-color:var(--Y);background:rgba(233,255,87,.06)}
+.fpc .fe{font-size:1.6rem;display:block;margin-bottom:.3rem}
+.fpc .fn{font-size:.68rem;font-weight:700;letter-spacing:.04em;line-height:1.3;color:rgba(255,255,255,.7)}
+.qrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.qlbl{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.qc{display:flex}
+.qc button{width:32px;height:32px;background:#161616;border:1px solid rgba(255,255,255,.08);color:#fff;font-size:.95rem;transition:all .2s}
+.qc button:first-child{border-radius:3px 0 0 3px}
+.qc button:last-child{border-radius:0 3px 3px 0}
+.qc button:hover{background:rgba(233,255,87,.1);color:var(--Y)}
+.qv{width:42px;height:32px;background:#161616;border:1px solid rgba(255,255,255,.08);border-left:none;border-right:none;color:#fff;text-align:center;font-weight:700;outline:none}
+.opills{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}
+.opill{background:#161616;border:1.5px solid rgba(255,255,255,.07);border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.28rem .8rem;cursor:pointer;transition:all .2s}
+.opill.sel{border-color:var(--Y);color:var(--Y)}
+.pbox{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:1.1rem 1.4rem;margin-bottom:1.4rem}
+.prow{display:flex;justify-content:space-between;font-size:.86rem;margin-bottom:.4rem;color:rgba(255,255,255,.65)}
+.prow.tot{border-top:1px solid rgba(255,255,255,.07);padding-top:.65rem;margin-top:.4rem;font-weight:700;font-size:1rem;color:#fff}
+.gn{color:#4ade80}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:.85rem}
+.ff{display:flex;flex-direction:column;gap:.3rem}
+.ff.full{grid-column:1/-1}
+.ff label{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.ff input{background:#111;border:1.5px solid rgba(255,255,255,.07);border-radius:3px;color:#fff;font-family:'Barlow',sans-serif;font-size:.88rem;padding:.65rem .85rem;outline:none;transition:border-color .2s;width:100%}
+.ff input::placeholder{color:rgba(255,255,255,.2)}
+.ff input:focus{border-color:rgba(233,255,87,.4)}
+.pmeth{display:flex;flex-direction:column;gap:.5rem;margin:1rem 0}
+.pmo{display:flex;align-items:center;gap:.65rem;cursor:pointer;background:#111;border:1.5px solid rgba(255,255,255,.07);padding:.8rem 1rem;border-radius:3px;transition:border-color .2s}
+.pmo.act{border-color:rgba(233,255,87,.5)}
+.pmo span{font-weight:700;font-size:.86rem;color:rgba(255,255,255,.8)}
+.spill{background:rgba(233,255,87,.05);border:1px solid rgba(233,255,87,.18);border-radius:3px;padding:1rem 1.2rem;display:flex;justify-content:space-between;align-items:center;margin:1rem 0}
+.spill-t{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--Y);line-height:1}
+.mpay{width:100%;background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;padding:.95rem;border:none;border-radius:3px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;margin-top:.4rem}
+.mpay:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(233,255,87,.4)}
+.mback{width:100%;background:transparent;color:rgba(255,255,255,.3);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;padding:.7rem;border:1.5px solid rgba(255,255,255,.07);border-radius:3px;cursor:pointer;transition:border-color .2s;margin-top:.5rem}
+.mback:hover{border-color:rgba(255,255,255,.25)}
+.succ{text-align:center;padding:3rem 0}
+.succ-tick{font-size:4rem;animation:popIn .5s var(--ease) both;display:block}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.succ h3{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--Y);margin:.6rem 0 .4rem}
+.succ p{font-size:.9rem;color:var(--mut)}
+.succ .hl{color:var(--Y);font-weight:600;display:block;margin-top:.4rem}
+@media(max-width:480px){.fpkg{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ════════ NAV ════════ -->
+<nav id="nav">
+  <div class="logo">VICTOR⚡</div>
+  <ul class="nav-links">
+    <li>
+      <button class="nav-dd">Shop ▾</button>
+      <div class="ddmenu">
+        <a href="#flavors" onclick="showFlavor('strawberry')">🍓 Strawberry Punch</a>
+        <a href="#flavors" onclick="showFlavor('coconut')">🥥 Coconut Crusher</a>
+        <a href="#flavors" onclick="showFlavor('blueberry')">🫐 Blueberry Blast</a>
+        <a href="#products">All Products →</a>
+      </div>
+    </li>
+    <li><a href="#formula">Formula</a></li>
+    <li><a href="#offers">Offers</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <div class="nav-r">
+    <button class="cart-btn" onclick="openCheckout()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-dot" id="cartDot">0</span>
+    </button>
+    <button class="nav-order" onclick="explodeAndOrder(this)">Order Now</button>
+  </div>
+  <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-x" onclick="closeMob()">✕</button>
+  <a href="#flavors" onclick="closeMob()">Shop</a>
+  <a href="#formula" onclick="closeMob()">Formula</a>
+  <a href="#offers" onclick="closeMob()">Offers</a>
+  <a href="#" style="color:var(--Y)" onclick="closeMob();openCheckout()">Order Now ⚡</a>
+</div>
+
+<!-- ════════ HERO ════════ -->
+<section id="hero">
+  <div class="hero-video-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-grid"></div>
+  <div id="particles"></div>
+  <div class="hero-wm">VICTOR</div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">⚡ New Launch — Limited Stock</div>
+      <h1 class="hero-h1">Fuel Your<br><span class="yline">Hustle.</span></h1>
+      <p class="hero-sub">Engineered for those who refuse to slow down. Three bold flavors. One unstoppable formula.</p>
+      <div class="hero-btns">
+        <button class="btn-pri" onclick="explodeAndOrder(this)">Order Now ⚡</button>
+        <button class="btn-ghost" onclick="document.getElementById('flavors').scrollIntoView({behavior:'smooth'})">Explore Flavors</button>
+      </div>
+    </div>
+
+    <div class="hero-can-stage">
+      <div class="hero-can-glow"></div>
+      <div id="heroCanWrapper">
+        <svg viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg" id="heroCan"></svg>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat"><div class="big"><span id="buyerCount">247</span><em>+</em></div><div class="sm">Bought Today</div></div>
+      <div class="hstat"><div class="big">50<em>K+</em></div><div class="sm">Happy Customers</div></div>
+      <div class="hstat"><div class="big">0<em>g</em></div><div class="sm">Added Sugar</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="scroll-bar"></div><span>Scroll</span></div>
+</section>
+
+<!-- ════════ FOMO BAR ════════ -->
+<div class="fomo-bar">
+  <div class="fomo-item"><div class="fomo-dot"></div> <span id="fomoText"><span class="fomo-num" id="fomoNum">247</span> people bought Victor today</span></div>
+  <div class="fomo-sep"></div>
+  <div class="fomo-item">🔥 Launch Offer ends in: <span id="countdown">--:--:--</span></div>
+  <div class="fomo-sep"></div>
+  <div class="fomo-item">⭐ Rated <span class="fomo-num">4.9</span>/5 by <span class="fomo-num">2,341</span> customers</div>
+</div>
+
+<!-- ════════ TICKER ════════ -->
+<div class="proof-bar">
+  <div class="proof-track">
+    <span class="proof-item">Fuel Your Hustle</span><span class="proof-item">Stay Unstoppable</span><span class="proof-item">Power Your Day</span><span class="proof-item">Break Every Limit</span><span class="proof-item">Stay Victorious</span><span class="proof-item">Think Faster</span><span class="proof-item">Train Harder</span>
+    <span class="proof-item">Fuel Your Hustle</span><span class="proof-item">Stay Unstoppable</span><span class="proof-item">Power Your Day</span><span class="proof-item">Break Every Limit</span><span class="proof-item">Stay Victorious</span><span class="proof-item">Think Faster</span><span class="proof-item">Train Harder</span>
+  </div>
+</div>
+
+<!-- ════════ MEDIA BAR ════════ -->
+<div class="media-bar">
+  <div class="media-track">
+    <span class="media-item"><span class="media-logo">📰</span>Economic Times</span>
+    <span class="media-item"><span class="media-logo">📺</span>NDTV</span>
+    <span class="media-item"><span class="media-logo">🏆</span>Startup India</span>
+    <span class="media-item"><span class="media-logo">📱</span>YourStory</span>
+    <span class="media-item"><span class="media-logo">💪</span>HealthLine India</span>
+    <span class="media-item"><span class="media-logo">🎯</span>Forbes India</span>
+    <span class="media-item"><span class="media-logo">⚡</span>Fit India</span>
+    <span class="media-item"><span class="media-logo">📰</span>Economic Times</span>
+    <span class="media-item"><span class="media-logo">📺</span>NDTV</span>
+    <span class="media-item"><span class="media-logo">🏆</span>Startup India</span>
+    <span class="media-item"><span class="media-logo">📱</span>YourStory</span>
+    <span class="media-item"><span class="media-logo">💪</span>HealthLine India</span>
+    <span class="media-item"><span class="media-logo">🎯</span>Forbes India</span>
+    <span class="media-item"><span class="media-logo">⚡</span>Fit India</span>
+  </div>
+</div>
+
+<!-- ════════ FLAVOR PANELS ════════ -->
+<div id="flavors">
+  <div class="flavor-nav">
+    <button class="fnav-btn active" onclick="showFlavor('strawberry',this)">🍓 Strawberry Punch</button>
+    <button class="fnav-btn" onclick="showFlavor('coconut',this)">🥥 Coconut Crusher</button>
+    <button class="fnav-btn" onclick="showFlavor('blueberry',this)">🫐 Blueberry Blast</button>
+  </div>
+
+  <!-- STRAWBERRY -->
+  <div class="flavor-panel active" data-f="strawberry" id="fp-strawberry">
+    <div class="fp-glow"></div><div class="fp-gridlines"></div>
+    <div class="fp-inner">
+      <div class="fp-txt">
+        <div class="fp-eye">🍓 Energy Flavor</div>
+        <div class="fp-name">Strawberry<br>Punch</div>
+        <p class="fp-desc">Bursting with ripe summer strawberries — sweet, tangy, and refreshingly crisp. Every sip packs the punch your day demands. Zero crash. All fire.</p>
+        <div class="fp-tags"><span class="fp-tag hi">🔥 Best Seller</span><span class="fp-tag">Sweet &amp; Fruity</span><span class="fp-tag">Ice Cold</span><span class="fp-tag">Pre-Workout</span></div>
+        <div class="fp-btns">
+          <button class="fp-bp" onclick="explodeAndOrder(this,'Strawberry Punch')">Add to Cart ⚡</button>
+          <button class="fp-bg" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Learn More</button>
+        </div>
+      </div>
+      <div class="fp-can-col">
+        <div class="fp-blob"></div>
+        <div class="fp-can-wrap"><svg id="can-strawberry" viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto"></svg></div>
+        <div class="fp-badge"><div class="bl">Per Can</div><div class="bv">₹299</div><div class="bo">₹349</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COCONUT -->
+  <div class="flavor-panel" data-f="coconut" id="fp-coconut">
+    <div class="fp-glow"></div><div class="fp-gridlines"></div>
+    <div class="fp-inner">
+      <div class="fp-txt">
+        <div class="fp-eye">🥥 Energy Flavor</div>
+        <div class="fp-name">Coconut<br>Crusher</div>
+        <p class="fp-desc">Smooth tropical vibes meet raw energy. This island-inspired blend delivers a creamy kick that lifts your senses and supercharges focus.</p>
+        <div class="fp-tags"><span class="fp-tag hi">🏝 Tropical</span><span class="fp-tag">Smooth Kick</span><span class="fp-tag">Focus Blend</span><span class="fp-tag">Post-Workout</span></div>
+        <div class="fp-btns">
+          <button class="fp-bp" onclick="explodeAndOrder(this,'Coconut Crusher')">Add to Cart ⚡</button>
+          <button class="fp-bg" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Learn More</button>
+        </div>
+      </div>
+      <div class="fp-can-col">
+        <div class="fp-blob"></div>
+        <div class="fp-can-wrap"><svg id="can-coconut" viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto"></svg></div>
+        <div class="fp-badge"><div class="bl">Per Can</div><div class="bv">₹299</div><div class="bo">₹349</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLUEBERRY -->
+  <div class="flavor-panel" data-f="blueberry" id="fp-blueberry">
+    <div class="fp-glow"></div><div class="fp-gridlines"></div>
+    <div class="fp-inner">
+      <div class="fp-txt">
+        <div class="fp-eye">🫐 Energy Flavor</div>
+        <div class="fp-name">Blueberry<br>Blast</div>
+        <p class="fp-desc">Deep, bold blueberry intensity with an electric, crisp finish. The antioxidant powerhouse that tastes as fierce as the energy it delivers.</p>
+        <div class="fp-tags"><span class="fp-tag hi">⚡ Electric</span><span class="fp-tag">Bold &amp; Crisp</span><span class="fp-tag">Antioxidant</span><span class="fp-tag">Late-Night</span></div>
+        <div class="fp-btns">
+          <button class="fp-bp" onclick="explodeAndOrder(this,'Blueberry Blast')">Add to Cart ⚡</button>
+          <button class="fp-bg" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Learn More</button>
+        </div>
+      </div>
+      <div class="fp-can-col">
+        <div class="fp-blob"></div>
+        <div class="fp-can-wrap"><svg id="can-blueberry" viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto"></svg></div>
+        <div class="fp-badge"><div class="bl">Per Can</div><div class="bv">₹299</div><div class="bo">₹349</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ STICKY BAR ════════ -->
+<div id="sticky-bar">
+  <div class="sb-info">
+    <div class="sb-flavor" id="sbFlavor">Strawberry Punch</div>
+    <div class="sb-price"><strong>₹299</strong> per can</div>
+  </div>
+  <button class="sb-btn" onclick="explodeAndOrder(this)">Add to Cart ⚡</button>
+</div>
+
+<!-- ════════ PRODUCT GRID ════════ -->
+<section id="products" style="background:var(--s1);border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">Our Products</div>
+    <h2 class="stitle">The Victor <span class="ac">Range.</span></h2>
+    <div class="prods-grid rg">
+      <div class="prod-card" data-c="s" onclick="explodeAndOrder(this,'Strawberry Punch')">
+        <div class="prod-can-wrap"><svg viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg" id="pcan-s"></svg></div>
+        <div class="pname">Strawberry Punch</div><div class="psub">250 mL · Energy Drink</div>
+        <div class="pprice">₹299 <s>₹349</s></div><button class="padd">Add to Cart</button>
+      </div>
+      <div class="prod-card" data-c="c" onclick="explodeAndOrder(this,'Coconut Crusher')">
+        <div class="prod-can-wrap"><svg viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg" id="pcan-c"></svg></div>
+        <div class="pname">Coconut Crusher</div><div class="psub">250 mL · Energy Drink</div>
+        <div class="pprice">₹299 <s>₹349</s></div><button class="padd">Add to Cart</button>
+      </div>
+      <div class="prod-card" data-c="b" onclick="explodeAndOrder(this,'Blueberry Blast')">
+        <div class="prod-can-wrap"><svg viewBox="0 0 240 420" xmlns="http://www.w3.org/2000/svg" id="pcan-b"></svg></div>
+        <div class="pname">Blueberry Blast</div><div class="psub">250 mL · Energy Drink</div>
+        <div class="pprice">₹299 <s>₹349</s></div><button class="padd">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FORMULA ════════ -->
+<section id="formula" style="background:#000;border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">The Formula</div>
+    <h2 class="stitle">Built Different,<br><span class="ac">Built to Win.</span></h2>
+    <div class="formula-grid rg">
+      <div class="ingr"><div class="ingr-n">01</div><span class="ingr-ico">☕</span><div class="ingr-name">Caffeine</div><div class="ingr-amt">150mg</div><p class="ingr-desc">Precision-dosed for fast alertness — no spike, no crash, hours of focus.</p></div>
+      <div class="ingr"><div class="ingr-n">02</div><span class="ingr-ico">🧠</span><div class="ingr-name">Taurine</div><div class="ingr-amt">2000mg</div><p class="ingr-desc">Sharpens mental response, sustains endurance, fights oxidative stress.</p></div>
+      <div class="ingr"><div class="ingr-n">03</div><span class="ingr-ico">💊</span><div class="ingr-name">B-Vitamins</div><div class="ingr-amt">Full Complex</div><p class="ingr-desc">B3, B6, B12 — unlocks your body's cellular energy engine.</p></div>
+      <div class="ingr"><div class="ingr-n">04</div><span class="ingr-ico">🌿</span><div class="ingr-name">Ginseng</div><div class="ingr-amt">Extract</div><p class="ingr-desc">Adaptogenic ginseng sharpens focus, reduces mental fatigue.</p></div>
+      <div class="ingr"><div class="ingr-n">05</div><span class="ingr-ico">💧</span><div class="ingr-name">Electrolytes</div><div class="ingr-amt">Na⁺ K⁺ Mg²⁺</div><p class="ingr-desc">Triple electrolyte blend for peak hydration and output all day.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ OFFERS ════════ -->
+<section id="offers" style="background:var(--s1);border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">Deals &amp; Discounts</div>
+    <h2 class="stitle">More Value,<br><span class="ac">Every Drop.</span></h2>
+    <div class="offers-grid rg">
+      <div class="off featured">
+        <div class="off-strip"></div>
+        <div class="off-badge">🔥 Launch</div>
+        <div class="off-pct">20%</div>
+        <div class="off-name">First Order Discount</div>
+        <p class="off-desc">Your first Victor order ships with 20% off. Welcome to the movement.</p>
+        <div class="off-timer"><span id="t-h">02</span><span class="t-sep">:</span><span id="t-m">00</span><span class="t-sep">:</span><span id="t-s">00</span></div>
+        <button class="off-cta" onclick="explodeAndOrder(this,null,'LAUNCH20')">Claim 20% OFF</button>
+      </div>
+      <div class="off">
+        <div class="off-strip"></div>
+        <div class="off-badge">🎁 Combo</div>
+        <div class="off-pct">2+1</div>
+        <div class="off-name">Buy 2 Get 1 Free</div>
+        <p class="off-desc">Pick any 2 flavors and the third is free. Mix and discover your go-to.</p>
+        <button class="off-cta" onclick="explodeAndOrder(this,null,'COMBO3')">Get Free Can</button>
+      </div>
+      <div class="off">
+        <div class="off-strip"></div>
+        <div class="off-badge">📦 Bulk</div>
+        <div class="off-pct">30%</div>
+        <div class="off-name">Bulk Order Savings</div>
+        <p class="off-desc">Orders above ₹2000 unlock up to 30% savings. Stock up for the squad.</p>
+        <button class="off-cta-g" onclick="explodeAndOrder(this,null,'BULK30')">Order in Bulk</button>
+      </div>
+      <div class="off">
+        <div class="off-strip"></div>
+        <div class="off-badge">🎓 Student</div>
+        <div class="off-pct">10%</div>
+        <div class="off-name">Student Special</div>
+        <p class="off-desc">Extra 10% off with a valid student ID. Grind harder for less.</p>
+        <button class="off-cta-g" onclick="explodeAndOrder(this,null,'STUDENT10')">Student Deal</button>
+      </div>
+      <div class="off">
+        <div class="off-strip"></div>
+        <div class="off-badge">🎉 Seasonal</div>
+        <div class="off-pct">⚡</div>
+        <div class="off-name">Festive Drops</div>
+        <p class="off-desc">Limited-time discounts during festivals. Subscribe — they sell fast.</p>
+        <button class="off-cta-g" onclick="openCheckout()">Notify Me</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ INSTAGRAM WALL ════════ -->
+<section style="background:#000;border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">Social</div>
+    <h2 class="stitle">Tag Us <span class="ac">@DrinkVictor</span></h2>
+    <div class="ig-grid">
+      <div class="ig-card" onclick="openCheckout()"><div class="ig-inner">🍓⚡</div><div class="ig-overlay"><span>Strawberry Punch<br>Pre-workout vibes</span></div></div>
+      <div class="ig-card" onclick="openCheckout()"><div class="ig-inner">🥥💪</div><div class="ig-overlay"><span>Coconut Crusher<br>Gym session fuel</span></div></div>
+      <div class="ig-card" onclick="openCheckout()"><div class="ig-inner">🫐🌙</div><div class="ig-overlay"><span>Blueberry Blast<br>Late night grind</span></div></div>
+      <div class="ig-card" onclick="openCheckout()"><div class="ig-inner">⚡🏋️</div><div class="ig-overlay"><span>Train Different<br>#FuelYourHustle</span></div></div>
+      <div class="ig-card" onclick="openCheckout()"><div class="ig-inner">🎯🔥</div><div class="ig-overlay"><span>Focus Mode ON<br>#StayVictorious</span></div></div>
+      <div class="ig-card" onclick="openCheckout()"><div class="ig-inner">🚀💥</div><div class="ig-overlay"><span>New Drop Alert<br>Limited Stock!</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ REVIEWS ════════ -->
+<section id="reviews" style="background:var(--s1);border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">Community</div>
+    <h2 class="stitle">The Victor <span class="ac">Movement.</span></h2>
+    <div class="rev-grid rg">
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><blockquote>"Blueberry Blast is the best energy drink I've had. Clean energy, no jitters, no crash. Got me through a 3-hour lifting session like nothing."</blockquote><div class="rev-auth"><div class="rev-av" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">RS</div><div><div class="rev-name">Rohan Sharma</div><div class="rev-role">Personal Trainer, Delhi</div></div></div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><blockquote>"As a founder, Coconut Crusher got me through product launch week — 14-hour days, zero burnout. The focus is genuinely real. Game changer."</blockquote><div class="rev-auth"><div class="rev-av" style="background:linear-gradient(135deg,#00e593,#00b870)">PK</div><div><div class="rev-name">Priya Kapoor</div><div class="rev-role">Founder, TechNow Labs</div></div></div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><blockquote>"Switched brands last month. Strawberry Punch hits differently — so fresh, real energy. Already on my third reorder this month. Absolutely addicted."</blockquote><div class="rev-auth"><div class="rev-av" style="background:linear-gradient(135deg,#ff6b8a,#ff3060)">AV</div><div><div class="rev-name">Arjun Verma</div><div class="rev-role">Engineering Student, Pune</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CTA ════════ -->
+<section class="cta-sec rv">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <span class="cta-lbl">Your Move</span>
+    <h2 class="cta-h">Ready to Be<br>Unstoppable?</h2>
+    <p class="cta-sub">Join 50,000+ Victor athletes, students &amp; hustlers. Your first order is 20% off — no code needed.</p>
+    <button class="btn-pri" style="font-size:.9rem;padding:1rem 3rem" onclick="explodeAndOrder(this,null,'LAUNCH20')">Order Victor Now ⚡</button>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+  <div class="ft">
+    <div class="fbrand"><div class="flogo">VICTOR⚡</div><p>Engineered for peak performers. Crafted for those who refuse to slow down.</p><div class="fsocs"><a class="fsoc" href="https://www.instagram.com/victor.basu735/" target="_blank" rel="noopener" title="Instagram">📸</a><a class="fsoc" href="https://www.linkedin.com/in/victor-basu-520958147/" target="_blank" rel="noopener" title="LinkedIn">𝕏</a><a class="fsoc" href="https://www.instagram.com/victor.basu735/" target="_blank" rel="noopener" title="YouTube">▶</a><a class="fsoc" href="https://www.linkedin.com/in/victor-basu-520958147/" target="_blank" rel="noopener" title="Facebook">f</a></div></div>
+    <div class="fcol"><h4>Shop</h4><ul><li><a href="#flavors" onclick="showFlavor('strawberry')">Strawberry Punch</a></li><li><a href="#flavors" onclick="showFlavor('coconut')">Coconut Crusher</a></li><li><a href="#flavors" onclick="showFlavor('blueberry')">Blueberry Blast</a></li></ul></div>
+    <div class="fcol"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="https://www.instagram.com/victor.basu735/" target="_blank" rel="noopener">Careers</a></li><li><a href="https://www.instagram.com/victor.basu735/" target="_blank" rel="noopener">Press</a></li></ul></div>
+    <div class="fcol"><h4>Help</h4><ul><li><a href="#">Track Order</a></li><li><a href="#">Returns</a></li><li><a href="#offers">Offers</a></li><li><a href="https://www.instagram.com/victor.basu735/" target="_blank" rel="noopener">Contact</a></li></ul></div>
+  </div>
+  <div class="fb"><p>© 2025 Victor Energy Drink. All rights reserved.</p><div style="display:flex;gap:1.5rem"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refunds</a></div></div>
+</footer>
+
+<!-- ════════ CHECKOUT MODAL ════════ -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="mhd"><h3>Order Victor ⚡</h3><button class="mx" onclick="closeCheckout()">✕</button></div>
+    <div class="mb">
+      <div class="mstep active" id="ms1">
+        <div class="ml">Choose Flavor</div>
+        <div class="fpkg">
+          <div class="fpc" onclick="pickF(this,'Strawberry Punch')"><span class="fe">🍓</span><span class="fn">Strawberry<br>Punch</span></div>
+          <div class="fpc" onclick="pickF(this,'Coconut Crusher')"><span class="fe">🥥</span><span class="fn">Coconut<br>Crusher</span></div>
+          <div class="fpc" onclick="pickF(this,'Blueberry Blast')"><span class="fe">🫐</span><span class="fn">Blueberry<br>Blast</span></div>
+        </div>
+        <div class="qrow"><span class="qlbl">Qty (packs of 6)</span><div class="qc"><button onclick="dq(-1)">−</button><input class="qv" id="qv" value="1" readonly><button onclick="dq(1)">+</button></div></div>
+        <div class="ml">Apply Offer</div>
+        <div class="opills">
+          <div class="opill" onclick="pickO(this,'LAUNCH20','20% First Order')">LAUNCH20</div>
+          <div class="opill" onclick="pickO(this,'COMBO3','Buy 2 Get 1 Free')">COMBO3</div>
+          <div class="opill" onclick="pickO(this,'BULK30','30% Bulk')">BULK30</div>
+          <div class="opill" onclick="pickO(this,'STUDENT10','10% Student')">STUDENT10</div>
+        </div>
+        <div class="pbox">
+          <div class="prow"><span>Victor × <span id="pq">1</span></span><span>₹<span id="pb">299</span></span></div>
+          <div class="prow" id="pdr" style="display:none"><span id="pdl">Discount</span><span class="gn" id="pda"></span></div>
+          <div class="prow"><span>Delivery</span><span>₹49</span></div>
+          <div class="prow tot"><span>Total</span><span>₹<span id="pt">348</span></span></div>
+        </div>
+        <button class="mpay" onclick="toS2()">Continue →</button>
+      </div>
+      <div class="mstep" id="ms2">
+        <div class="ml">Delivery Details</div>
+        <div class="fg">
+          <div class="ff"><label>First Name</label><input id="i_fn" placeholder="Rohan"></div>
+          <div class="ff"><label>Last Name</label><input id="i_ln" placeholder="Sharma"></div>
+          <div class="ff full"><label>Email</label><input id="i_em" type="email" placeholder="rohan@email.com"></div>
+          <div class="ff full"><label>Phone</label><input id="i_ph" placeholder="+91 98765 43210"></div>
+          <div class="ff full"><label>Address</label><input id="i_ad" placeholder="Flat, Street, Area"></div>
+          <div class="ff"><label>City</label><input id="i_ci" placeholder="New Delhi"></div>
+          <div class="ff"><label>PIN Code</label><input id="i_pi" placeholder="110001"></div>
+        </div>
+        <div class="ml" style="margin-top:1rem">Payment Method</div>
+        <div class="pmeth">
+          <label class="pmo act" id="pmU"><input type="radio" name="pm" value="upi" checked onchange="selPM(this,'pmU')"><span>📱 UPI / GPay / PhonePe</span></label>
+          <label class="pmo" id="pmC"><input type="radio" name="pm" value="card" onchange="selPM(this,'pmC')"><span>💳 Credit / Debit Card</span></label>
+          <label class="pmo" id="pmD"><input type="radio" name="pm" value="cod" onchange="selPM(this,'pmD')"><span>💵 Cash on Delivery</span></label>
+        </div>
+        <div id="upiF"><div class="ff"><label>UPI ID</label><input placeholder="name@upi"></div></div>
+        <div id="cardF" style="display:none"><div class="fg"><div class="ff full"><label>Card No.</label><input placeholder="4242 4242 4242 4242" maxlength="19" oninput="fCard(this)"></div><div class="ff"><label>Expiry</label><input placeholder="MM / YY" maxlength="7" oninput="fExp(this)"></div><div class="ff"><label>CVV</label><input placeholder="•••" maxlength="3" type="password"></div></div></div>
+        <div class="spill">
+          <div><div style="font-family:'Barlow Condensed';font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:.15rem">Order Total</div><div class="spill-t">₹<span id="s2t">348</span></div></div>
+          <div style="text-align:right"><div id="s2fl" style="font-family:'Barlow Condensed';font-weight:700">—</div><div id="s2sv" style="font-size:.75rem;color:var(--Y)"></div></div>
+        </div>
+        <button class="mpay" onclick="pay()" id="payBtn">⚡ Place Order &amp; Pay</button>
+        <button class="mback" onclick="toS1()">← Back</button>
+      </div>
+      <div class="mstep" id="ms3">
+        <div class="succ"><span class="succ-tick">✅</span><h3>Order Confirmed!</h3><p>Your Victor Energy Drink is on its way.</p><span class="hl" id="smsg"></span><p style="margin-top:.75rem;color:rgba(255,255,255,.35)">Delivery in <strong style="color:#fff">2–4 working days</strong></p><button class="mpay" style="max-width:200px;margin:2rem auto 0" onclick="closeCheckout()">Done ⚡</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══ CAN BUILDER ═══ */
+function buildCan(cfg,uid){
+  const{c1,c2,c3,c4,lbg,brand,sub,flavor,tagline}=cfg;
+  const r=[];for(let i=0;i<13;i++)r.push(`<line x1="${43+i*13}" y1="48" x2="${43+i*13}" y2="380" stroke="white" stroke-width="${i%2===0?1.2:.5}"/>`);
+  return`<defs>
+<linearGradient id="${uid}B" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${c1}"/><stop offset="7%" stop-color="${c2}"/><stop offset="24%" stop-color="${c3}"/><stop offset="43%" stop-color="${c4}"/><stop offset="57%" stop-color="${c3}"/><stop offset="80%" stop-color="${c2}"/><stop offset="100%" stop-color="${c1}"/></linearGradient>
+<linearGradient id="${uid}T" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bbb"/><stop offset="28%" stop-color="#eee"/><stop offset="70%" stop-color="#ccc"/><stop offset="100%" stop-color="#444"/></linearGradient>
+<linearGradient id="${uid}Bt" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#555"/><stop offset="100%" stop-color="#080808"/></linearGradient>
+<linearGradient id="${uid}Sh" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0)"/><stop offset="35%" stop-color="rgba(255,255,255,.06)"/><stop offset="50%" stop-color="rgba(255,255,255,.2)"/><stop offset="65%" stop-color="rgba(255,255,255,.04)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+<linearGradient id="${uid}Ed" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(0,0,0,.72)"/><stop offset="9%" stop-color="rgba(0,0,0,0)"/><stop offset="91%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,.62)"/></linearGradient>
+<linearGradient id="${uid}Lb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${lbg}"/><stop offset="100%" stop-color="${c1}"/></linearGradient>
+<filter id="${uid}Gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<clipPath id="${uid}Cl"><rect x="28" y="48" width="184" height="332" rx="22"/></clipPath>
+</defs>
+<ellipse cx="120" cy="390" rx="68" ry="9" fill="rgba(0,0,0,.55)"/>
+<ellipse cx="120" cy="380" rx="80" ry="14" fill="url(#${uid}Bt)"/>
+<rect x="28" y="48" width="184" height="332" rx="22" fill="url(#${uid}B)"/>
+<g clip-path="url(#${uid}Cl)" opacity=".038">${r.join('')}</g>
+<rect x="28" y="122" width="184" height="200" fill="url(#${uid}Lb)" clip-path="url(#${uid}Cl)" opacity=".5"/>
+<line x1="28" y1="122" x2="212" y2="122" stroke="${brand}" stroke-width="1.5" opacity=".6" clip-path="url(#${uid}Cl)"/>
+<line x1="28" y1="322" x2="212" y2="322" stroke="${brand}" stroke-width="1.5" opacity=".6" clip-path="url(#${uid}Cl)"/>
+<text x="120" y="146" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="9.5" fill="${sub}" letter-spacing="7" font-weight="700">${flavor.toUpperCase()}</text>
+<text x="120" y="160" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="7" fill="${sub}" letter-spacing="4" opacity=".6">FLAVOUR</text>
+<text x="120" y="255" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="88" fill="${brand}" filter="url(#${uid}Gl)" letter-spacing="1" transform="rotate(-8 120 255)">VICTOR</text>
+<text x="120" y="290" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="9" fill="rgba(255,255,255,.35)" letter-spacing="5.5">ENERGY DRINK</text>
+<text x="120" y="308" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="7.5" fill="rgba(255,255,255,.18)" letter-spacing="3">250 mL</text>
+<text x="120" y="324" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="7" fill="${sub}" opacity=".32" letter-spacing="2">${tagline}</text>
+<rect x="28" y="48" width="184" height="332" rx="22" fill="url(#${uid}Sh)"/>
+<rect x="28" y="48" width="184" height="332" rx="22" fill="url(#${uid}Ed)"/>
+<path d="M34,48 Q27,26 53,18 L187,18 Q213,26 206,48" fill="#333" opacity=".7"/>
+<path d="M34,48 Q27,26 53,18 L187,18 Q213,26 206,48" fill="none" stroke="rgba(200,200,200,.22)" stroke-width="1"/>
+<ellipse cx="120" cy="35" rx="86" ry="8" fill="none" stroke="rgba(180,180,180,.4)" stroke-width="2"/>
+<ellipse cx="120" cy="48" rx="92" ry="20" fill="url(#${uid}T)"/>
+<ellipse cx="120" cy="46" rx="84" ry="16" fill="none" stroke="rgba(220,220,220,.28)" stroke-width="1"/>
+<ellipse cx="120" cy="18" rx="68" ry="13" fill="#bbb"/>
+<ellipse cx="120" cy="18" rx="66" ry="11" fill="url(#${uid}T)" opacity=".68"/>
+<ellipse cx="120" cy="11" rx="26" ry="8" fill="#aaa" stroke="#888" stroke-width=".8"/>
+<rect x="107" y="5" width="26" height="12" rx="6" fill="#999"/>
+<ellipse cx="120" cy="7" rx="13" ry="6" fill="#ccc"/>
+<ellipse cx="120" cy="7" rx="9" ry="4" fill="#bbb"/>
+<circle cx="120" cy="14" r="4.5" fill="#aaa" stroke="#777" stroke-width=".8"/>
+<circle cx="120" cy="14" r="2" fill="#ddd"/>
+<circle cx="120" cy="13" r="1.2" fill="rgba(255,255,255,.6)"/>
+<path d="M107 7 Q104 -2 120 -2 Q136 -2 133 7" fill="none" stroke="#999" stroke-width="3" stroke-linecap="round"/>`;
+}
+
+const CANS={
+  strawberry:{c1:'#100203',c2:'#330510',c3:'#8a0820',c4:'#d62040',lbg:'#220010',brand:'#ff6b8a',sub:'#ffb3c1',flavor:'Strawberry',tagline:'SWEET · FRUITY · POWERFUL'},
+  coconut:   {c1:'#010e06',c2:'#023318',c3:'#026530',c4:'#00b055',lbg:'#011808',brand:'#00e593',sub:'#7fffd4',flavor:'Coconut',  tagline:'TROPICAL · SMOOTH · POWERFUL'},
+  blueberry: {c1:'#03030f',c2:'#09092a',c3:'#17177a',c4:'#2e2ed0',lbg:'#05051e',brand:'#a78bfa',sub:'#c4b5fd',flavor:'Blueberry',tagline:'BOLD · ELECTRIC · FEARLESS'},
+};
+const HERO_CAN = {c1:'#050400',c2:'#1a1800',c3:'#3d3900',c4:'#e9ff57',lbg:'#0a0900',brand:'#e9ff57',sub:'rgba(233,255,87,.7)',flavor:'Original',tagline:'FUEL YOUR HUSTLE'};
+
+// Render hero can
+document.getElementById('heroCan').innerHTML = buildCan(HERO_CAN,'hc');
+// Render flavor panel cans
+['strawberry','coconut','blueberry'].forEach(f=>{
+  const el=document.getElementById('can-'+f);
+  if(el) el.innerHTML=buildCan(CANS[f],'fp_'+f);
+});
+// Render product card cans
+[['s','strawberry'],['c','coconut'],['b','blueberry']].forEach(([k,f])=>{
+  const el=document.getElementById('pcan-'+k);
+  if(el) el.innerHTML=buildCan(CANS[f],'pc_'+k);
+});
+
+/* ═══ 3D CAN TILT ON MOUSE ═══ */
+const heroWrap = document.getElementById('heroCanWrapper');
+document.addEventListener('mousemove',e=>{
+  const cx=window.innerWidth/2, cy=window.innerHeight/2;
+  const dx=(e.clientX-cx)/cx, dy=(e.clientY-cy)/cy;
+  heroWrap.style.transform=`rotateY(${dx*18}deg) rotateX(${-dy*12}deg) translateY(${-Math.abs(dy)*8}px)`;
+  heroWrap.style.transition='transform .1s linear';
+  // Update glow color
+  document.querySelector('.hero-can-glow').style.transform=`translateX(calc(-50% + ${dx*20}px))`;
+});
+heroWrap.addEventListener('mouseleave',()=>{
+  heroWrap.style.transform='';
+  heroWrap.style.transition='transform .6s var(--ease)';
+});
+
+/* ═══ FLOATING PARTICLES ═══ */
+(function(){
+  const c=document.getElementById('particles');
+  const cols=['#E9FF57','#ff6b8a','#00e593','#a78bfa','#ffffff'];
+  function mkP(){
+    const p=document.createElement('div');p.className='pt';
+    const sz=Math.random()*4+1;
+    const col=cols[Math.floor(Math.random()*cols.length)];
+    const dur=Math.random()*10+8;
+    const dx=(Math.random()-0.5)*200;
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${col};opacity:0;left:${Math.random()*100}%;bottom:-10px;--dx:${dx}px;animation-duration:${dur}s;animation-delay:${Math.random()*8}s`;
+    c.appendChild(p);
+    setTimeout(()=>p.remove(),(dur+8)*1000);
+  }
+  setInterval(mkP,600);
+})();
+
+/* ═══ NAV ═══ */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('solid',scrollY>60);
+  // Sticky bar
+  const fp=document.getElementById('flavors');
+  if(fp){
+    const r=fp.getBoundingClientRect();
+    document.getElementById('sticky-bar').classList.toggle('visible',r.top<0&&r.bottom>100);
+  }
+});
+document.getElementById('hamBtn').addEventListener('click',()=>document.getElementById('mobMenu').classList.toggle('open'));
+function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
+
+/* ═══ REVEAL ═══ */
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv,.rg').forEach(el=>ro.observe(el));
+
+/* ═══ FLAVOR SWITCHER ═══ */
+let currentFlavor='strawberry';
+function showFlavor(key,btn){
+  currentFlavor=key;
+  document.querySelectorAll('.flavor-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.fnav-btn').forEach(b=>b.classList.remove('active'));
+  const panel=document.getElementById('fp-'+key);
+  if(!panel)return;
+  panel.style.opacity='0';
+  panel.classList.add('active');
+  requestAnimationFrame(()=>{
+    panel.style.transition='opacity .4s ease';
+    panel.style.opacity='1';
+    const wrap=panel.querySelector('.fp-can-wrap');
+    if(wrap){
+      wrap.style.cssText='transform:scale(.82) translateY(40px);opacity:0;transition:transform .55s cubic-bezier(.16,1,.3,1),opacity .45s ease';
+      requestAnimationFrame(()=>{wrap.style.transform='';wrap.style.opacity='1'});
+    }
+  });
+  if(btn) btn.classList.add('active');
+  else{const idx={strawberry:0,coconut:1,blueberry:2}[key];document.querySelectorAll('.fnav-btn')[idx]?.classList.add('active')}
+  // Update sticky bar
+  const names={strawberry:'Strawberry Punch',coconut:'Coconut Crusher',blueberry:'Blueberry Blast'};
+  document.getElementById('sbFlavor').textContent=names[key];
+}
+
+/* ═══ PARTICLE EXPLOSION on CTA ═══ */
+const EXPCOLORS={strawberry:'#ff6b8a',coconut:'#00e593',blueberry:'#a78bfa'};
+function explodeAndOrder(btn,flavor,code){
+  const rect=btn.getBoundingClientRect();
+  const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
+  const col=EXPCOLORS[currentFlavor]||'#E9FF57';
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');p.className='px-particle';
+    const ang=Math.random()*Math.PI*2;
+    const dist=80+Math.random()*120;
+    const sz=4+Math.random()*8;
+    p.style.cssText=`left:${cx}px;top:${cy}px;width:${sz}px;height:${sz}px;background:${col};--pxX:${Math.cos(ang)*dist}px;--pxY:${Math.sin(ang)*dist}px;animation-duration:${.5+Math.random()*.4}s;animation-delay:${Math.random()*.1}s`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),900);
+  }
+  // Bump cart
+  const dot=document.getElementById('cartDot');
+  dot.textContent=parseInt(dot.textContent)+1;
+  dot.classList.remove('bump');void dot.offsetWidth;dot.classList.add('bump');
+  setTimeout(()=>openCheckout(flavor,code),150);
+}
+
+/* ═══ FOMO COUNTER ═══ */
+let buyerBase=247;
+setInterval(()=>{
+  if(Math.random()<0.3){
+    buyerBase+=Math.floor(Math.random()*3)+1;
+    document.getElementById('fomoNum').textContent=buyerBase;
+    document.getElementById('buyerCount').textContent=buyerBase;
+  }
+},4000);
+
+/* ═══ COUNTDOWN TIMER ═══ */
+(function(){
+  // Set end time 2h from page load
+  const end=Date.now()+2*60*60*1000;
+  function tick(){
+    const rem=Math.max(0,end-Date.now());
+    const h=Math.floor(rem/3600000);
+    const m=Math.floor((rem%3600000)/60000);
+    const s=Math.floor((rem%60000)/1000);
+    const fmt=n=>String(n).padStart(2,'0');
+    document.getElementById('countdown').textContent=`${fmt(h)}:${fmt(m)}:${fmt(s)}`;
+    document.getElementById('t-h').textContent=fmt(h);
+    document.getElementById('t-m').textContent=fmt(m);
+    document.getElementById('t-s').textContent=fmt(s);
+    if(rem>0) setTimeout(tick,1000);
+  }
+  tick();
+})();
+
+/* ═══ CHECKOUT STATE ═══ */
+const st={f:null,q:1,o:null,ol:''};
+const BASE=299,DEL=49;
+function calc(){
+  let b=BASE*st.q,d=0;
+  if(st.o==='LAUNCH20')d=Math.round(b*.2);
+  if(st.o==='COMBO3'&&st.q>=2)d=BASE;
+  if(st.o==='BULK30'&&b>=2000)d=Math.round(b*.3);
+  if(st.o==='STUDENT10')d=Math.round(b*.1);
+  return{b,d,t:b-d+DEL};
+}
+function upUI(){
+  const{b,d,t}=calc();
+  document.getElementById('pq').textContent=st.q;
+  document.getElementById('pb').textContent=b;
+  document.getElementById('pt').textContent=t;
+  document.getElementById('s2t').textContent=t;
+  const dr=document.getElementById('pdr');
+  if(d>0){dr.style.display='flex';document.getElementById('pdl').textContent=st.ol;document.getElementById('pda').textContent='−₹'+d}
+  else dr.style.display='none';
+  document.getElementById('s2fl').textContent=st.f?st.f+' ×'+st.q:'—';
+  document.getElementById('s2sv').textContent=d>0?'Saving ₹'+d:'';
+}
+function pickF(el,n){document.querySelectorAll('.fpc').forEach(f=>f.classList.remove('sel'));el.classList.add('sel');st.f=n;upUI()}
+function dq(d){st.q=Math.max(1,Math.min(24,st.q+d));document.getElementById('qv').value=st.q;upUI()}
+function pickO(el,c,l){
+  document.querySelectorAll('.opill').forEach(p=>p.classList.remove('sel'));
+  if(st.o===c){st.o=null;st.ol=''}else{st.o=c;st.ol=l;el.classList.add('sel')}
+  upUI();
+}
+function openCheckout(flavor,code){
+  ['ms1','ms2','ms3'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('ms1').classList.add('active');
+  if(flavor){st.f=flavor;document.querySelectorAll('.fpc').forEach(p=>{p.classList.remove('sel');if(p.querySelector('.fn').textContent.includes(flavor.split(' ')[0]))p.classList.add('sel')})}
+  if(code){
+    const lm={LAUNCH20:'20% First Order',COMBO3:'Buy 2 Get 1 Free',BULK30:'30% Bulk OFF',STUDENT10:'10% Student OFF'};
+    st.o=code;st.ol=lm[code]||code;
+    document.querySelectorAll('.opill').forEach(p=>{p.classList.remove('sel');if(p.textContent.includes(code))p.classList.add('sel')});
+  }
+  upUI();
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow=''}
+document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeCheckout()});
+function toS2(){if(!st.f){alert('Please pick a flavor 🍹');return}document.getElementById('ms1').classList.remove('active');document.getElementById('ms2').classList.add('active');upUI()}
+function toS1(){document.getElementById('ms2').classList.remove('active');document.getElementById('ms1').classList.add('active')}
+function selPM(r,id){
+  ['pmU','pmC','pmD'].forEach(i=>document.getElementById(i).classList.remove('act'));
+  document.getElementById(id).classList.add('act');
+  document.getElementById('cardF').style.display=r.value==='card'?'block':'none';
+  document.getElementById('upiF').style.display=r.value==='upi'?'block':'none';
+}
+function fCard(i){let v=i.value.replace(/\D/g,'').substring(0,16);i.value=v.replace(/(.{4})/g,'$1 ').trim()}
+function fExp(i){let v=i.value.replace(/\D/g,'').substring(0,4);if(v.length>=2)v=v.substring(0,2)+' / '+v.substring(2);i.value=v}
+function pay(){
+  const n=document.getElementById('i_fn').value.trim(),e=document.getElementById('i_em').value.trim(),a=document.getElementById('i_ad').value.trim();
+  if(!n||!e||!a){alert('Please fill name, email & address.');return}
+  const btn=document.getElementById('payBtn');btn.textContent='Processing ⚡...';btn.disabled=true;
+  setTimeout(()=>{
+    document.getElementById('ms2').classList.remove('active');document.getElementById('ms3').classList.add('active');
+    const{d}=calc();document.getElementById('smsg').textContent=d>0?`You saved ₹${d}! 🎉`:'';
+    btn.textContent='⚡ Place Order & Pay';btn.disabled=false;
+  },2000);
+}
+upUI();
+</script>
+</body>
+</html>
