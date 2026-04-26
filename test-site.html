@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX — Performance Apparel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  WEBSITE BUILDER SKILL — TEST SITE REFERENCE               ║
+  ║  Pattern: Bold/Athletic (see SKILL.md Phase 2)             ║
+  ║  Demonstrates ALL SOP patterns in a non-energy-drink ctx   ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  SECTIONS:                                                  ║
+  ║  1.  Nav — transparent→frosted, dropdown, cart+count       ║
+  ║  2.  Hero — 3-col (text|product SVG|stats), 3D tilt        ║
+  ║  3.  FOMO bar — live count, countdown, rating              ║
+  ║  4.  Proof ticker — accent-colored marquee                 ║
+  ║  5.  Media bar — credibility logos                         ║
+  ║  6.  Product panels — sticky tabs, full-bleed per variant  ║
+  ║  7.  Product grid — 1px-gap Pepsi-style cards              ║
+  ║  8.  Formula/Features — numbered ingredient cards          ║
+  ║  9.  Offers — countdown timer integrated                   ║
+  ║  10. Social wall — IG-style grid wired to real URLs        ║
+  ║  11. Reviews — dark grid testimonials                      ║
+  ║  12. CTA — full-bleed glow                                 ║
+  ║  13. Sticky add-to-cart bar                                ║
+  ║  14. Multi-step checkout modal                             ║
+  ║  15. Footer — real social links, no dead # hrefs           ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  KEY PATTERNS DEMONSTRATED:                                 ║
+  ║  • CSS :root variables for all colors                      ║
+  ║  • clamp() for all type and spacing                        ║
+  ║  • IntersectionObserver scroll reveal (.rv / .rg)          ║
+  ║  • Product panel switching — fade + scale-in animation     ║
+  ║  • Particle explosion on CTA buttons                       ║
+  ║  • Floating ambient particles in hero                      ║
+  ║  • 3D mouse-tilt on hero product                           ║
+  ║  • SVG product with unique uid defs per render location    ║
+  ║  • Countdown timer + live buyer counter                    ║
+  ║  • target="_blank" rel="noopener noreferrer" on all ext.   ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<style>
+/* ── ROOT (SKILL.md §4.1) ── */
+:root{
+  --blk:#000;--dk:#080808;--s1:#0d0d0d;--s2:#141414;--s3:#1a1a1a;
+  --bdr:rgba(255,255,255,.06);--txt:#fff;--mut:rgba(255,255,255,.45);
+  --Y:#E9FF57;--R:#FF3B30;--G:#00E5A0;--B:#00BFFF;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--blk);color:var(--txt);font-family:'Barlow',sans-serif;overflow-x:hidden;line-height:1.6}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:'Barlow',sans-serif}
+
+/* ── NAV (SKILL.md §8) ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px;transition:background .5s var(--ease),backdrop-filter .5s}
+#nav.solid{background:rgba(0,0,0,.93);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.1em;color:var(--Y)}
+.nav-links{display:flex;list-style:none;align-items:center}
+.nav-links li{position:relative}
+.nav-links a,.nav-dd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7);padding:.5rem 1.1rem;display:flex;align-items:center;gap:.3rem;background:none;border:none;cursor:pointer;transition:color .2s}
+.nav-links a:hover,.nav-dd:hover{color:#fff}
+/* Active underline — SKILL.md §14 */
+.nav-links a{position:relative;padding-bottom:calc(.5rem + 3px)}
+.nav-links a::after{content:'';position:absolute;bottom:.5rem;left:1.1rem;right:1.1rem;height:1.5px;background:var(--Y);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav-links a:hover::after{transform:scaleX(1)}
+/* Dropdown */
+.ddmenu{position:absolute;top:100%;left:0;min-width:200px;background:#0d0d0d;border:1px solid var(--bdr);border-top:2px solid var(--Y);opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .25s,transform .25s,visibility .25s;z-index:999}
+.nav-links li:hover .ddmenu{opacity:1;visibility:visible;transform:none}
+.ddmenu a{display:block;padding:.65rem 1.1rem;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);border-bottom:1px solid var(--bdr);transition:color .2s,background .2s}
+.ddmenu a::after{display:none}
+.ddmenu a:hover{color:#fff;background:rgba(255,255,255,.04)}
+.nav-r{display:flex;align-items:center;gap:1rem}
+.cart-btn{display:flex;align-items:center;gap:.5rem;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);background:none;border:none;transition:color .2s}
+.cart-btn:hover{color:#fff}
+.cart-dot{background:var(--Y);color:#000;font-size:.6rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cart-dot.bump{animation:bump .35s var(--ease)}
+.nav-order{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:.55rem 1.4rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .2s}
+.nav-order:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(233,255,87,.45)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
+.ham span{width:22px;height:1.5px;background:#fff;display:block;transition:all .3s}
+@media(max-width:900px){.nav-links,.nav-r .nav-order{display:none}.ham{display:flex}}
+.mob{display:none;position:fixed;inset:0;background:#000;z-index:950;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mob.open{display:flex}
+.mob a{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(255,255,255,.7);transition:color .2s}
+.mob a:hover{color:var(--Y)}
+.mob-x{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:#fff;font-size:2rem;line-height:1}
+
+/* ── HERO (SKILL.md §9.1) ── */
+#hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding-bottom:clamp(4rem,8vw,7rem)}
+/* Animated gradient bg — replaces video */
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 55% 40%,rgba(233,255,87,.07) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 80% 70%,rgba(255,50,50,.07) 0%,transparent 50%),radial-gradient(ellipse 40% 50% at 15% 75%,rgba(0,220,150,.05) 0%,transparent 50%),#000;animation:bgBreath 8s ease-in-out infinite alternate}
+@keyframes bgBreath{0%{opacity:1}100%{opacity:.75}}
+/* Grain texture — SKILL.md §7.9 */
+.hero-grain{position:absolute;inset:0;z-index:1;opacity:.025;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+/* Grid lines */
+.hero-grid-lines{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+/* Watermark — SKILL.md §7.10 */
+.hero-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);z-index:1;font-family:'Bebas Neue',sans-serif;font-size:clamp(12rem,28vw,30rem);line-height:.85;background:linear-gradient(180deg,rgba(233,255,87,.1) 0%,rgba(233,255,87,.02) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;user-select:none;pointer-events:none;white-space:nowrap}
+#particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.pt{position:absolute;border-radius:50%;pointer-events:none;animation:ptRise linear infinite}
+@keyframes ptRise{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:.7}90%{opacity:.2}100%{transform:translateY(-100vh) translateX(var(--dx));opacity:0}}
+/* 3-column grid — SKILL.md §4.4 */
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,5vw,5rem);display:grid;grid-template-columns:1fr auto 1fr;gap:3rem;align-items:flex-end}
+.hero-eyebrow{display:flex;align-items:center;gap:.75rem;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--Y);margin-bottom:1.2rem;animation:fadeUp .6s .2s var(--ease) both}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--Y)}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,8vw,8rem);line-height:.9;animation:fadeUp .7s .3s var(--ease) both}
+.hero-h1 .yline{display:block;background:linear-gradient(90deg,var(--Y),#fff 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1rem;font-weight:300;color:var(--mut);line-height:1.8;max-width:340px;margin-top:1.1rem;animation:fadeUp .7s .42s var(--ease) both}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem;animation:fadeUp .7s .55s var(--ease) both}
+.btn-pri{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:.9rem 2.2rem;border:none;border-radius:3px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s}
+.btn-pri:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(233,255,87,.5)}
+.btn-ghost{background:transparent;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:.9rem 2.2rem;border:1.5px solid rgba(255,255,255,.2);border-radius:3px;transition:border-color .2s,color .2s,transform .2s}
+.btn-ghost:hover{border-color:var(--Y);color:var(--Y);transform:translateY(-3px)}
+/* Hero product with 3D tilt target */
+.hero-prod-stage{display:flex;align-items:flex-end;justify-content:center;position:relative}
+.hero-prod-glow{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:200px;height:60px;background:var(--Y);border-radius:50%;filter:blur(50px);opacity:.3;animation:glowBob 3s ease-in-out infinite}
+/* 3D tilt wrapper — SKILL.md §5.4 */
+#prodTiltWrap{width:clamp(180px,22vw,260px);animation:prodFloat 4.5s ease-in-out infinite,fadeUp .9s .6s var(--ease) both;position:relative;z-index:2;filter:drop-shadow(0 60px 80px rgba(0,0,0,.95));transform-style:preserve-3d;perspective:800px}
+#prodTiltWrap svg{width:100%;height:auto;display:block}
+.hero-stats{display:flex;flex-direction:column;gap:1.8rem;align-items:flex-end;padding-bottom:1.5rem}
+.hstat{text-align:right;animation:fadeUp .6s var(--ease) both}
+.hstat:nth-child(1){animation-delay:.6s}.hstat:nth-child(2){animation-delay:.72s}.hstat:nth-child(3){animation-delay:.84s}
+.hstat .big{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;line-height:1}
+.hstat .big em{color:var(--Y);font-style:normal}
+.hstat .sm{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;font-family:'Barlow Condensed',sans-serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);z-index:2;animation:fadeUp .6s 1.3s var(--ease) both}
+.scroll-bar{width:1px;height:48px;background:linear-gradient(transparent,var(--Y),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr;justify-items:center;text-align:center;gap:2rem}.hero-prod-stage{order:-1}.hero-eyebrow::before{display:none}.hero-sub{max-width:100%}.hero-btns{justify-content:center}.hero-stats{flex-direction:row;align-items:center;justify-content:center;gap:2.5rem}.hstat{text-align:center}}
+
+/* ── FOMO BAR (SKILL.md §7.1) ── */
+.fomo-bar{background:rgba(0,0,0,.95);border-bottom:1px solid var(--bdr);padding:.6rem 2rem;display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;position:relative;z-index:10}
+.fomo-item{display:flex;align-items:center;gap:.5rem;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.fomo-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:blink 1.5s ease-in-out infinite}
+.fomo-num{color:var(--Y);font-size:.95rem}
+.fomo-sep{width:1px;height:16px;background:var(--bdr)}
+
+/* ── TICKER (SKILL.md §3) ── */
+.ticker-strip{background:var(--Y);padding:.85rem 0;overflow:hidden}
+.ticker-track{display:flex;width:max-content;animation:ticker 22s linear infinite}
+.ticker-item{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;color:#000;padding:0 2.8rem;white-space:nowrap}
+.ticker-item::after{content:' ⚡ '}
+
+/* ── MEDIA BAR (SKILL.md §7.6) ── */
+.media-bar{background:var(--s1);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:1.2rem 0;overflow:hidden}
+.media-track{display:flex;width:max-content;animation:ticker 30s linear infinite;align-items:center}
+.media-item{display:flex;align-items:center;gap:.5rem;padding:0 3rem;opacity:.35;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+
+/* ── PRODUCT PANELS (SKILL.md §9.2) ── */
+#products{background:#000}
+.prod-nav{display:flex;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:68px;z-index:800;background:rgba(4,4,4,.97);backdrop-filter:blur(24px);overflow-x:auto;scrollbar-width:none}
+.prod-nav::-webkit-scrollbar{display:none}
+.pnav-btn{flex:1;min-width:160px;background:none;border:none;border-bottom:3px solid transparent;color:rgba(255,255,255,.4);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;padding:1.1rem 1rem;cursor:pointer;transition:color .25s,border-color .25s;white-space:nowrap}
+.pnav-btn.active{color:#fff;border-bottom-color:var(--Y)}
+.prod-panel{display:none;width:100%;min-height:88vh;position:relative;overflow:hidden}
+.prod-panel.active{display:block}
+.prod-panel[data-p="black"]{background:radial-gradient(ellipse 80% 100% at 72% 42%,#1a1a00 0%,#0a0a00 50%,#020200 100%)}
+.prod-panel[data-p="red"]{background:radial-gradient(ellipse 80% 100% at 72% 42%,#280010 0%,#100006 50%,#040001 100%)}
+.prod-panel[data-p="white"]{background:radial-gradient(ellipse 80% 100% at 72% 42%,#001828 0%,#001018 50%,#000408 100%)}
+.pp-glow{position:absolute;inset:0;pointer-events:none}
+.prod-panel[data-p="black"] .pp-glow{background:radial-gradient(ellipse 60% 70% at 72% 50%,rgba(233,255,87,.22) 0%,transparent 60%)}
+.prod-panel[data-p="red"]   .pp-glow{background:radial-gradient(ellipse 60% 70% at 72% 50%,rgba(255,60,90,.28) 0%,transparent 60%)}
+.prod-panel[data-p="white"] .pp-glow{background:radial-gradient(ellipse 60% 70% at 72% 50%,rgba(0,180,255,.22) 0%,transparent 60%)}
+.pp-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
+.pp-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;min-height:88vh}
+.pp-txt{display:flex;flex-direction:column;justify-content:center;padding:clamp(4rem,8vw,7rem) clamp(2rem,5vw,5rem)}
+.pp-eye{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem}
+.pp-eye::before{content:'';width:28px;height:1px;flex-shrink:0}
+.prod-panel[data-p="black"] .pp-eye{color:var(--Y)}.prod-panel[data-p="black"] .pp-eye::before{background:var(--Y)}
+.prod-panel[data-p="red"]   .pp-eye{color:#ff6b8a}.prod-panel[data-p="red"] .pp-eye::before{background:#ff6b8a}
+.prod-panel[data-p="white"] .pp-eye{color:#00bfff}.prod-panel[data-p="white"] .pp-eye::before{background:#00bfff}
+.pp-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,7vw,8rem);line-height:.88;color:#fff;margin-bottom:1.3rem}
+.prod-panel[data-p="black"] .pp-name{text-shadow:0 0 100px rgba(233,255,87,.5)}
+.prod-panel[data-p="red"]   .pp-name{text-shadow:0 0 100px rgba(255,60,90,.5)}
+.prod-panel[data-p="white"] .pp-name{text-shadow:0 0 100px rgba(0,180,255,.5)}
+.pp-desc{font-size:1rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1.85;max-width:400px;margin-bottom:2rem}
+.pp-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem}
+.pp-tag{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+.prod-panel[data-p="black"] .pp-tag.hi{border-color:rgba(233,255,87,.5);color:var(--Y);background:rgba(233,255,87,.08)}
+.prod-panel[data-p="red"]   .pp-tag.hi{border-color:rgba(255,107,138,.5);color:#ff6b8a;background:rgba(255,107,138,.08)}
+.prod-panel[data-p="white"] .pp-tag.hi{border-color:rgba(0,191,255,.5);color:#00bfff;background:rgba(0,191,255,.08)}
+.pp-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.pp-bp{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;padding:.9rem 2.2rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .3s}
+.prod-panel[data-p="black"] .pp-bp{background:var(--Y);color:#000}
+.prod-panel[data-p="black"] .pp-bp:hover{box-shadow:0 12px 36px rgba(233,255,87,.6);transform:translateY(-3px)}
+.prod-panel[data-p="red"]   .pp-bp{background:#ff6b8a;color:#000}
+.prod-panel[data-p="red"]   .pp-bp:hover{box-shadow:0 12px 36px rgba(255,60,90,.6);transform:translateY(-3px)}
+.prod-panel[data-p="white"] .pp-bp{background:#00bfff;color:#000}
+.prod-panel[data-p="white"] .pp-bp:hover{box-shadow:0 12px 36px rgba(0,180,255,.6);transform:translateY(-3px)}
+.pp-bg{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;padding:.9rem 2.2rem;background:transparent;color:rgba(255,255,255,.55);border:1.5px solid rgba(255,255,255,.15);border-radius:3px;cursor:pointer;transition:all .2s}
+.pp-bg:hover{border-color:rgba(255,255,255,.5);color:#fff;transform:translateY(-3px)}
+.pp-vis{display:flex;align-items:center;justify-content:center;position:relative;min-height:88vh;overflow:hidden}
+.pp-blob{position:absolute;width:400px;height:400px;border-radius:50%;filter:blur(100px);z-index:0;animation:blobAnim 4s ease-in-out infinite}
+.prod-panel[data-p="black"] .pp-blob{background:radial-gradient(circle,rgba(233,255,87,.6),rgba(180,200,0,.3))}
+.prod-panel[data-p="red"]   .pp-blob{background:radial-gradient(circle,rgba(255,60,90,.65),rgba(200,0,40,.3))}
+.prod-panel[data-p="white"] .pp-blob{background:radial-gradient(circle,rgba(0,191,255,.6),rgba(0,100,200,.3))}
+.pp-prod-wrap{position:relative;z-index:2;width:clamp(200px,22vw,300px);animation:prodFloat 5s ease-in-out infinite;filter:drop-shadow(0 40px 80px rgba(0,0,0,.9))}
+.pp-prod-wrap svg{width:100%;height:auto;display:block;overflow:visible}
+.pp-price{position:absolute;bottom:12%;right:8%;z-index:3;background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:.9rem 1.3rem;text-align:center}
+.pp-price .pl{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.2rem}
+.pp-price .pv{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#fff;line-height:1}
+.pp-price .po{font-size:.75rem;color:rgba(255,255,255,.3);text-decoration:line-through}
+@media(max-width:768px){.pp-inner{grid-template-columns:1fr}.pp-vis{min-height:50vw;order:-1}.pp-blob{width:250px;height:250px}.pp-price{display:none}}
+
+/* ── STICKY BAR (SKILL.md §7.4) ── */
+#sticky-bar{position:fixed;bottom:-80px;left:0;right:0;z-index:850;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.1);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;transition:bottom .4s var(--ease)}
+#sticky-bar.visible{bottom:0}
+.sb-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em}
+.sb-price{font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;color:var(--mut)}
+.sb-price strong{color:var(--Y);margin-right:.3rem}
+.sb-btn{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:.75rem 2rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .2s}
+.sb-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(233,255,87,.5)}
+
+/* ── PRODUCT GRID (SKILL.md §4.4 / Pepsi-style) ── */
+.pgrid-sec{background:var(--s1);border-top:1px solid var(--bdr)}
+/* 1px gap grid — SKILL.md §14 */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--bdr);margin-top:3rem}
+.pgcard{background:var(--dk);padding:3rem 2rem;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;cursor:pointer;transition:background .3s}
+.pgcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
+.pgcard[data-c="b"]:hover::after{background:var(--Y)}
+.pgcard[data-c="r"]:hover::after{background:#ff6b8a}
+.pgcard[data-c="w"]:hover::after{background:#00bfff}
+.pgcard:hover{background:var(--s2)}
+.pg-can{height:200px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}
+.pg-can svg{width:88px;height:auto;display:block;overflow:visible;transition:transform .4s var(--ease),filter .4s}
+.pgcard:hover .pg-can svg{transform:translateY(-14px) scale(1.06);filter:drop-shadow(0 24px 40px rgba(0,0,0,.8))}
+.pg-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;margin-bottom:.3rem}
+.pg-sub{font-size:.75rem;font-weight:300;color:var(--mut);margin-bottom:1.1rem}
+.pg-price{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.85rem}
+.pg-price s{color:var(--mut);margin-left:.4rem;font-weight:400}
+.pg-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1.4rem;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.65);border-radius:3px;transition:all .25s}
+.pgcard:hover .pg-btn{border-color:var(--Y);color:var(--Y)}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.pgrid{grid-template-columns:1fr}}
+
+/* ── FEATURES / FORMULA (SKILL.md §3 step 8) ── */
+.feat-sec{background:#000;border-top:1px solid var(--bdr)}
+/* 1px gap numbered grid */
+.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:3.5rem;border:1px solid var(--bdr)}
+.feat{background:var(--dk);padding:2.5rem 1.8rem;position:relative;overflow:hidden;transition:background .3s}
+.feat:hover{background:var(--s2)}
+/* Top color reveal on hover — SKILL.md §14 */
+.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--Y);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.feat:hover::before{transform:scaleX(1)}
+.feat-n{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:rgba(255,255,255,.04);position:absolute;top:.4rem;right:.6rem;line-height:1}
+.feat-ico{font-size:1.8rem;margin-bottom:1.1rem;display:block}
+.feat-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;margin-bottom:.4rem}
+.feat-sub{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--Y);margin-bottom:.75rem}
+.feat-desc{font-size:.83rem;font-weight:300;color:var(--mut);line-height:1.7}
+@media(max-width:900px){.feat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.feat-grid{grid-template-columns:1fr}}
+
+/* ── OFFERS (SKILL.md §9.3) ── */
+.offers-sec{background:var(--s1);border-top:1px solid var(--bdr)}
+.offers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;margin-top:3rem;border:1px solid var(--bdr)}
+.off{background:var(--dk);padding:3rem 2.5rem;position:relative;overflow:hidden;transition:background .3s}
+.off:hover{background:var(--s3)}
+.off-strip{position:absolute;top:0;left:0;right:0;height:3px}
+.off:nth-child(1) .off-strip{background:var(--Y)}
+.off:nth-child(2) .off-strip{background:#ff6b8a}
+.off:nth-child(3) .off-strip{background:#00e593}
+.off:nth-child(4) .off-strip{background:#a78bfa}
+.off.feat{background:linear-gradient(145deg,rgba(233,255,87,.05),var(--dk))}
+.off-badge{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--Y);color:#000;padding:.2rem .65rem;border-radius:2px;margin-bottom:.9rem}
+.off-pct{font-family:'Bebas Neue',sans-serif;font-size:5rem;line-height:1;color:#fff;margin-bottom:.3rem}
+.off-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.55rem}
+.off-desc{font-size:.84rem;font-weight:300;color:var(--mut);line-height:1.7;margin-bottom:1.6rem}
+/* Integrated countdown timer — SKILL.md §7.3 */
+.off-timer{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--Y);letter-spacing:.08em;margin-bottom:1.2rem;display:flex;gap:.5rem;align-items:center}
+.t-sep{color:rgba(255,255,255,.3);font-size:1.4rem}
+.off-cta{background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:.75rem 1.8rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .2s}
+.off-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(233,255,87,.45)}
+.off-cta-g{background:transparent;color:rgba(255,255,255,.55);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:.73rem 1.8rem;border:1.5px solid rgba(255,255,255,.12);border-radius:3px;transition:all .2s}
+.off-cta-g:hover{border-color:rgba(255,255,255,.4);color:#fff;transform:translateY(-2px)}
+
+/* ── INSTAGRAM SOCIAL WALL (SKILL.md §7.7 / §15.5) ── */
+.ig-sec{background:#000;border-top:1px solid var(--bdr);overflow:hidden}
+/* NOTE: each ig-card is wrapped in <a> — SKILL.md §15.5 best practice */
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:3rem}
+.ig-card{aspect-ratio:1;position:relative;overflow:hidden;display:block;cursor:pointer}
+.ig-card::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .3s;z-index:1}
+.ig-card:hover::before{background:rgba(0,0,0,.55)}
+.ig-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;transition:transform .4s var(--ease)}
+.ig-card:hover .ig-inner{transform:scale(1.08)}
+.ig-ovl{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.ig-card:hover .ig-ovl{opacity:1}
+.ig-ovl span{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-align:center;padding:.3rem .7rem}
+.ig-card:nth-child(1){background:linear-gradient(135deg,#1a1500,#2a2200)}
+.ig-card:nth-child(2){background:linear-gradient(135deg,#1a0010,#3d0020)}
+.ig-card:nth-child(3){background:linear-gradient(135deg,#001828,#003050)}
+.ig-card:nth-child(4){background:linear-gradient(135deg,#1a1500,#2a2200)}
+.ig-card:nth-child(5){background:linear-gradient(135deg,#0a0a00,#1a1800)}
+.ig-card:nth-child(6){background:linear-gradient(135deg,#001828,#003050)}
+@media(max-width:768px){.ig-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ── REVIEWS (SKILL.md §3 step 11) ── */
+.rev-sec{background:var(--s1);border-top:1px solid var(--bdr)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3rem;border:1px solid var(--bdr)}
+.rev-card{background:var(--dk);padding:2.2rem;transition:background .3s}
+.rev-card:hover{background:var(--s2)}
+.rev-stars{color:var(--Y);font-size:.9rem;letter-spacing:.15em;margin-bottom:.9rem}
+.rev-card blockquote{font-size:.92rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.65);margin-bottom:1.4rem;font-style:italic}
+.rev-auth{display:flex;align-items:center;gap:.75rem}
+.rev-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;color:#000;flex-shrink:0}
+.rev-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem}
+.rev-role{font-size:.73rem;color:var(--mut)}
+@media(max-width:768px){.rev-grid{grid-template-columns:1fr}}
+
+/* ── CTA (SKILL.md §3 step 12) ── */
+.cta-sec{min-height:65vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;background:#000;border-top:1px solid var(--bdr)}
+.cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(233,255,87,.08),transparent 65%)}
+.cta-inner{position:relative;z-index:2;padding:4rem 2rem}
+.cta-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--Y);display:block;margin-bottom:1.2rem}
+.cta-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,10rem);line-height:.9;margin-bottom:1.5rem}
+.cta-sub{font-size:1rem;font-weight:300;color:var(--mut);max-width:460px;margin:0 auto 2.5rem;line-height:1.8}
+
+/* ── FOOTER (SKILL.md §15 — real links, no dead #) ── */
+footer{background:var(--dk);border-top:1px solid var(--bdr);padding:5rem clamp(1.5rem,5vw,5rem) 2rem}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
+.flogo{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--Y);margin-bottom:1rem;line-height:1}
+.fbp{font-size:.86rem;font-weight:300;color:var(--mut);line-height:1.8;max-width:280px;margin-bottom:1.5rem}
+/* Social icons — SKILL.md §15.3: always target="_blank" rel="noopener noreferrer" */
+.fsocs{display:flex;gap:.5rem}
+.fsoc{width:38px;height:38px;border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.88rem;border-radius:3px;transition:border-color .2s,background .2s;text-decoration:none}
+.fsoc:hover{border-color:var(--Y);background:rgba(233,255,87,.07)}
+.fcol h4{font-family:'Barlow Condensed',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-bottom:1.1rem}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.fcol ul a{font-size:.84rem;font-weight:300;color:rgba(255,255,255,.38);transition:color .2s}
+.fcol ul a:hover{color:#fff}
+.fb{border-top:1px solid var(--bdr);padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.fb p,.fb a{font-size:.76rem;color:rgba(255,255,255,.22);transition:color .2s}
+.fb a:hover{color:rgba(255,255,255,.5)}
+@media(max-width:768px){.ft{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ft{grid-template-columns:1fr}}
+
+/* ── SECTION COMMONS ── */
+.sec{padding:clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,5rem);max-width:1400px;margin:0 auto}
+.eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--Y);display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--Y);flex-shrink:0}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,6rem);line-height:.95}
+.stitle .ac{color:var(--Y)}
+
+/* ── ANIMATIONS (SKILL.md §5.1) ── */
+@keyframes fadeUp    {from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes prodFloat {0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-22px) rotate(2deg)}}
+@keyframes glowBob   {0%,100%{opacity:.2;transform:translateX(-50%) scaleX(1)}50%{opacity:.45;transform:translateX(-50%) scaleX(1.25)}}
+@keyframes blobAnim  {0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.2);opacity:.55}}
+@keyframes ticker    {from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes blink     {0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes bump      {0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+@keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.5);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
+@keyframes pxFly     {0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--pxX),var(--pxY)) scale(0)}}
+
+/* ── SCROLL REVEAL (SKILL.md §5.2) ── */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rg>*{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.rg.in>*{opacity:1;transform:none}
+.rg.in>*:nth-child(1){transition-delay:0s}.rg.in>*:nth-child(2){transition-delay:.08s}
+.rg.in>*:nth-child(3){transition-delay:.16s}.rg.in>*:nth-child(4){transition-delay:.24s}
+.rg.in>*:nth-child(5){transition-delay:.32s}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(12px)}
+.overlay.open{display:flex}
+.modal{background:#0d0d0d;border:1px solid rgba(255,255,255,.08);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;animation:mUp .4s var(--ease) both}
+@keyframes mUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.mhd{padding:1.8rem 2rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+.mhd h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em}
+.mx{background:none;border:none;color:rgba(255,255,255,.4);font-size:1.3rem;line-height:1;transition:color .2s}
+.mx:hover{color:#fff}
+.mb{padding:1.8rem 2rem}
+.mstep{display:none}.mstep.active{display:block}
+.ml{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.fpkg{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1.5rem}
+.fpc{background:#161616;border:1.5px solid rgba(255,255,255,.06);border-radius:3px;padding:.85rem .5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.fpc.sel{border-color:var(--Y);background:rgba(233,255,87,.06)}
+.fpc .fe{font-size:1.6rem;display:block;margin-bottom:.3rem}
+.fpc .fn{font-size:.68rem;font-weight:700;letter-spacing:.04em;line-height:1.3;color:rgba(255,255,255,.7)}
+.qrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.qlbl{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.qc{display:flex}
+.qc button{width:32px;height:32px;background:#161616;border:1px solid rgba(255,255,255,.08);color:#fff;font-size:.95rem;transition:all .2s}
+.qc button:first-child{border-radius:3px 0 0 3px}
+.qc button:last-child{border-radius:0 3px 3px 0}
+.qc button:hover{background:rgba(233,255,87,.1);color:var(--Y)}
+.qv{width:42px;height:32px;background:#161616;border:1px solid rgba(255,255,255,.08);border-left:none;border-right:none;color:#fff;text-align:center;font-weight:700;outline:none}
+.opills{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}
+.opill{background:#161616;border:1.5px solid rgba(255,255,255,.07);border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.28rem .8rem;cursor:pointer;transition:all .2s}
+.opill.sel{border-color:var(--Y);color:var(--Y)}
+.pbox{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:1.1rem 1.4rem;margin-bottom:1.4rem}
+.prow{display:flex;justify-content:space-between;font-size:.86rem;margin-bottom:.4rem;color:rgba(255,255,255,.65)}
+.prow.tot{border-top:1px solid rgba(255,255,255,.07);padding-top:.65rem;margin-top:.4rem;font-weight:700;font-size:1rem;color:#fff}
+.gn{color:#4ade80}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:.85rem}
+.ff{display:flex;flex-direction:column;gap:.3rem}
+.ff.full{grid-column:1/-1}
+.ff label{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.ff input{background:#111;border:1.5px solid rgba(255,255,255,.07);border-radius:3px;color:#fff;font-family:'Barlow',sans-serif;font-size:.88rem;padding:.65rem .85rem;outline:none;transition:border-color .2s;width:100%}
+.ff input::placeholder{color:rgba(255,255,255,.2)}
+.ff input:focus{border-color:rgba(233,255,87,.4)}
+.pmeth{display:flex;flex-direction:column;gap:.5rem;margin:1rem 0}
+.pmo{display:flex;align-items:center;gap:.65rem;cursor:pointer;background:#111;border:1.5px solid rgba(255,255,255,.07);padding:.8rem 1rem;border-radius:3px;transition:border-color .2s}
+.pmo.act{border-color:rgba(233,255,87,.5)}
+.pmo span{font-weight:700;font-size:.86rem;color:rgba(255,255,255,.8)}
+.spill{background:rgba(233,255,87,.05);border:1px solid rgba(233,255,87,.18);border-radius:3px;padding:1rem 1.2rem;display:flex;justify-content:space-between;align-items:center;margin:1rem 0}
+.spill-t{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--Y);line-height:1}
+.mpay{width:100%;background:var(--Y);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;padding:.95rem;border:none;border-radius:3px;transition:transform .2s,box-shadow .2s;margin-top:.4rem}
+.mpay:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(233,255,87,.4)}
+.mback{width:100%;background:transparent;color:rgba(255,255,255,.3);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;padding:.7rem;border:1.5px solid rgba(255,255,255,.07);border-radius:3px;cursor:pointer;transition:border-color .2s;margin-top:.5rem}
+.mback:hover{border-color:rgba(255,255,255,.25)}
+.succ{text-align:center;padding:3rem 0}
+.succ-tick{font-size:4rem;animation:popIn .5s var(--ease) both;display:block}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.succ h3{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--Y);margin:.6rem 0 .4rem}
+.succ p{font-size:.9rem;color:var(--mut)}
+.succ .hl{color:var(--Y);font-weight:600;display:block;margin-top:.4rem}
+@media(max-width:480px){.fpkg{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr}}
+
+/* Particle explosion — SKILL.md §5.5 */
+.px-p{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;animation:pxFly .8s var(--ease) forwards}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <div class="logo">APEX⚡</div>
+  <ul class="nav-links">
+    <li>
+      <button class="nav-dd">Shop ▾</button>
+      <div class="ddmenu">
+        <a href="#products" onclick="showPanel('black')">⬛ Blackout Edition</a>
+        <a href="#products" onclick="showPanel('red')">🔴 Crimson Strike</a>
+        <a href="#products" onclick="showPanel('white')">🔵 Ice Volt</a>
+        <a href="#pgrid">All Products →</a>
+      </div>
+    </li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#offers">Offers</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <div class="nav-r">
+    <button class="cart-btn" onclick="openCheckout()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-dot" id="cartDot">0</span>
+    </button>
+    <button class="nav-order" onclick="explode(this)">Order Now</button>
+  </div>
+  <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mobMenu">
+  <button class="mob-x" onclick="closeMob()">✕</button>
+  <a href="#products" onclick="closeMob()">Shop</a>
+  <a href="#features" onclick="closeMob()">Features</a>
+  <a href="#offers" onclick="closeMob()">Offers</a>
+  <!-- Real social links — SKILL.md §15 -->
+  <a href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer" style="color:var(--Y);font-size:1.5rem">📸 Follow Us</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-grid-lines"></div>
+  <div id="particles"></div>
+  <!-- Watermark — SKILL.md §7.10 -->
+  <div class="hero-wm">APEX</div>
+
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">⚡ New Season Drop</div>
+      <h1 class="hero-h1">Train Like<br><span class="yline">No Limits.</span></h1>
+      <p class="hero-sub">Performance apparel engineered for athletes who push past every boundary. Three signature collections. One relentless standard.</p>
+      <div class="hero-btns">
+        <button class="btn-pri" onclick="explode(this)">Shop Now ⚡</button>
+        <button class="btn-ghost" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Explore Collection</button>
+      </div>
+    </div>
+
+    <!-- 3D tilt product — SKILL.md §5.4 -->
+    <div class="hero-prod-stage">
+      <div class="hero-prod-glow"></div>
+      <div id="prodTiltWrap">
+        <!-- SVG product illustration — SKILL.md §6 -->
+        <svg id="heroProd" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat"><div class="big"><span id="buyerCount">312</span><em>+</em></div><div class="sm">Sold Today</div></div>
+      <div class="hstat"><div class="big">4.9<em>★</em></div><div class="sm">Avg Rating</div></div>
+      <div class="hstat"><div class="big">30<em>d</em></div><div class="sm">Free Returns</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="scroll-bar"></div><span>Scroll</span></div>
+</section>
+
+<!-- ══ FOMO BAR ══ -->
+<div class="fomo-bar">
+  <div class="fomo-item"><div class="fomo-dot"></div><span><span class="fomo-num" id="fomoNum">312</span> sold today</span></div>
+  <div class="fomo-sep"></div>
+  <div class="fomo-item">🔥 Launch price ends: <span id="countdown" style="color:var(--Y)">--:--:--</span></div>
+  <div class="fomo-sep"></div>
+  <div class="fomo-item">⭐ <span class="fomo-num">4.9</span>/5 from <span class="fomo-num">1,847</span> athletes</div>
+</div>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker-strip">
+  <div class="ticker-track">
+    <span class="ticker-item">Blackout Edition</span><span class="ticker-item">Crimson Strike</span><span class="ticker-item">Ice Volt</span><span class="ticker-item">Train Harder</span><span class="ticker-item">No Limits</span><span class="ticker-item">Free Shipping</span><span class="ticker-item">30 Day Returns</span>
+    <span class="ticker-item">Blackout Edition</span><span class="ticker-item">Crimson Strike</span><span class="ticker-item">Ice Volt</span><span class="ticker-item">Train Harder</span><span class="ticker-item">No Limits</span><span class="ticker-item">Free Shipping</span><span class="ticker-item">30 Day Returns</span>
+  </div>
+</div>
+
+<!-- ══ MEDIA BAR ══ -->
+<div class="media-bar">
+  <div class="media-track">
+    <span class="media-item">🏅 Men's Health</span><span class="media-item">💪 GQ Active</span><span class="media-item">🏃 Runner's World</span><span class="media-item">⚡ ESPN</span><span class="media-item">🎯 Forbes Health</span><span class="media-item">🔥 Athlete's Weekly</span>
+    <span class="media-item">🏅 Men's Health</span><span class="media-item">💪 GQ Active</span><span class="media-item">🏃 Runner's World</span><span class="media-item">⚡ ESPN</span><span class="media-item">🎯 Forbes Health</span><span class="media-item">🔥 Athlete's Weekly</span>
+  </div>
+</div>
+
+<!-- ══ PRODUCT PANELS (SKILL.md §9.2) ══ -->
+<div id="products">
+  <div class="prod-nav">
+    <button class="pnav-btn active" onclick="showPanel('black',this)">⬛ Blackout Edition</button>
+    <button class="pnav-btn" onclick="showPanel('red',this)">🔴 Crimson Strike</button>
+    <button class="pnav-btn" onclick="showPanel('white',this)">🔵 Ice Volt</button>
+  </div>
+
+  <!-- BLACKOUT -->
+  <div class="prod-panel active" data-p="black" id="pp-black">
+    <div class="pp-glow"></div><div class="pp-grid"></div>
+    <div class="pp-inner">
+      <div class="pp-txt">
+        <div class="pp-eye">⬛ Signature Collection</div>
+        <div class="pp-name">Blackout<br>Edition</div>
+        <p class="pp-desc">Matte black performance fabric with DryTech™ moisture-wicking and four-way stretch. Built for the athlete who moves in silence and performs in thunder.</p>
+        <div class="pp-tags"><span class="pp-tag hi">🔥 Best Seller</span><span class="pp-tag">DryTech™</span><span class="pp-tag">4-Way Stretch</span><span class="pp-tag">UV Protection</span></div>
+        <div class="pp-btns"><button class="pp-bp" onclick="explode(this,'Blackout Edition')">Add to Cart ⚡</button><button class="pp-bg">Size Guide</button></div>
+      </div>
+      <div class="pp-vis">
+        <div class="pp-blob"></div>
+        <div class="pp-prod-wrap"><svg id="prod-black" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto"></svg></div>
+        <div class="pp-price"><div class="pl">From</div><div class="pv">₹2,499</div><div class="po">₹3,199</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRIMSON -->
+  <div class="prod-panel" data-p="red" id="pp-red">
+    <div class="pp-glow"></div><div class="pp-grid"></div>
+    <div class="pp-inner">
+      <div class="pp-txt">
+        <div class="pp-eye">🔴 Signature Collection</div>
+        <div class="pp-name">Crimson<br>Strike</div>
+        <p class="pp-desc">Bold crimson accents on a carbon-grey base. HeatShield™ fabric keeps you cool in peak conditions while the compression cut maximises muscle support.</p>
+        <div class="pp-tags"><span class="pp-tag hi">⚡ New Drop</span><span class="pp-tag">HeatShield™</span><span class="pp-tag">Compression</span><span class="pp-tag">Anti-Odour</span></div>
+        <div class="pp-btns"><button class="pp-bp" onclick="explode(this,'Crimson Strike')">Add to Cart ⚡</button><button class="pp-bg">Size Guide</button></div>
+      </div>
+      <div class="pp-vis">
+        <div class="pp-blob"></div>
+        <div class="pp-prod-wrap"><svg id="prod-red" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto"></svg></div>
+        <div class="pp-price"><div class="pl">From</div><div class="pv">₹2,499</div><div class="po">₹3,199</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICE VOLT -->
+  <div class="prod-panel" data-p="white" id="pp-white">
+    <div class="pp-glow"></div><div class="pp-grid"></div>
+    <div class="pp-inner">
+      <div class="pp-txt">
+        <div class="pp-eye">🔵 Signature Collection</div>
+        <div class="pp-name">Ice<br>Volt</div>
+        <p class="pp-desc">Electric blue on glacier white. CoolFlow™ ventilation channels move air where you need it most. For the athlete who thrives in the cold zone.</p>
+        <div class="pp-tags"><span class="pp-tag hi">❄️ Cold Weather</span><span class="pp-tag">CoolFlow™</span><span class="pp-tag">Reflective</span><span class="pp-tag">Windproof</span></div>
+        <div class="pp-btns"><button class="pp-bp" onclick="explode(this,'Ice Volt')">Add to Cart ⚡</button><button class="pp-bg">Size Guide</button></div>
+      </div>
+      <div class="pp-vis">
+        <div class="pp-blob"></div>
+        <div class="pp-prod-wrap"><svg id="prod-white" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto"></svg></div>
+        <div class="pp-price"><div class="pl">From</div><div class="pv">₹2,499</div><div class="po">₹3,199</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STICKY BAR ══ -->
+<div id="sticky-bar">
+  <div style="display:flex;align-items:center;gap:1rem">
+    <div class="sb-name" id="sbName">Blackout Edition</div>
+    <div class="sb-price"><strong>₹2,499</strong> from</div>
+  </div>
+  <button class="sb-btn" onclick="explode(this)">Add to Cart ⚡</button>
+</div>
+
+<!-- ══ PRODUCT GRID ══ -->
+<section id="pgrid" class="pgrid-sec">
+  <div class="sec rv">
+    <div class="eyebrow">Full Collection</div>
+    <h2 class="stitle">The Apex <span class="ac">Range.</span></h2>
+    <div class="pgrid rg">
+      <div class="pgcard" data-c="b" onclick="explode(this,'Blackout Edition')">
+        <div class="pg-can"><svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" id="pgp-black"></svg></div>
+        <div class="pg-name">Blackout Edition</div><div class="pg-sub">Performance Set · All Sizes</div>
+        <div class="pg-price">₹2,499 <s>₹3,199</s></div><button class="pg-btn">Add to Cart</button>
+      </div>
+      <div class="pgcard" data-c="r" onclick="explode(this,'Crimson Strike')">
+        <div class="pg-can"><svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" id="pgp-red"></svg></div>
+        <div class="pg-name">Crimson Strike</div><div class="pg-sub">Performance Set · All Sizes</div>
+        <div class="pg-price">₹2,499 <s>₹3,199</s></div><button class="pg-btn">Add to Cart</button>
+      </div>
+      <div class="pgcard" data-c="w" onclick="explode(this,'Ice Volt')">
+        <div class="pg-can"><svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" id="pgp-white"></svg></div>
+        <div class="pg-name">Ice Volt</div><div class="pg-sub">Performance Set · All Sizes</div>
+        <div class="pg-price">₹2,499 <s>₹3,199</s></div><button class="pg-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section id="features" style="background:#000;border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">The Technology</div>
+    <h2 class="stitle">Built for <span class="ac">Peak Output.</span></h2>
+    <div class="feat-grid rg">
+      <div class="feat"><div class="feat-n">01</div><span class="feat-ico">💧</span><div class="feat-name">DryTech™</div><div class="feat-sub">Moisture Control</div><p class="feat-desc">Pulls sweat away from skin 3× faster than standard polyester. Stay dry, stay focused.</p></div>
+      <div class="feat"><div class="feat-n">02</div><span class="feat-ico">🌡️</span><div class="feat-name">HeatShield™</div><div class="feat-sub">Temperature Reg</div><p class="feat-desc">Phase-change micro-capsules absorb body heat at peak exertion and release it during rest.</p></div>
+      <div class="feat"><div class="feat-n">03</div><span class="feat-ico">💪</span><div class="feat-name">CompresFit™</div><div class="feat-sub">Muscle Support</div><p class="feat-desc">Graduated compression mapped to primary muscle groups reduces vibration and fatigue.</p></div>
+      <div class="feat"><div class="feat-n">04</div><span class="feat-ico">🌬️</span><div class="feat-name">CoolFlow™</div><div class="feat-sub">Air Circulation</div><p class="feat-desc">Strategic ventilation zones laser-cut at high-heat areas for maximum airflow where it counts.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ OFFERS ══ -->
+<section id="offers" style="background:var(--s1);border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">Deals &amp; Discounts</div>
+    <h2 class="stitle">More Gear, <span class="ac">Less Cost.</span></h2>
+    <div class="offers-grid rg">
+      <div class="off feat">
+        <div class="off-strip"></div>
+        <div class="off-badge">🔥 Launch</div>
+        <div class="off-pct">20%</div>
+        <div class="off-name">First Order Discount</div>
+        <p class="off-desc">New to Apex? Your first set ships with 20% off automatically applied.</p>
+        <div class="off-timer"><span id="t-h">02</span><span class="t-sep">:</span><span id="t-m">00</span><span class="t-sep">:</span><span id="t-s">00</span></div>
+        <button class="off-cta" onclick="explode(this,null,'LAUNCH20')">Claim 20% OFF</button>
+      </div>
+      <div class="off">
+        <div class="off-strip"></div>
+        <div class="off-badge">👕 Bundle</div>
+        <div class="off-pct">Buy 2</div>
+        <div class="off-name">Get 3rd Free</div>
+        <p class="off-desc">Buy any 2 collections and the third is on us. Mix and build your kit.</p>
+        <button class="off-cta" onclick="explode(this,null,'COMBO3')">Get Free Set</button>
+      </div>
+      <div class="off">
+        <div class="off-strip"></div>
+        <div class="off-badge">🎓 Student</div>
+        <div class="off-pct">10%</div>
+        <div class="off-name">Student Special</div>
+        <p class="off-desc">Extra 10% off with a valid student ID. Train harder, spend less.</p>
+        <button class="off-cta-g" onclick="explode(this,null,'STUDENT10')">Student Deal</button>
+      </div>
+      <div class="off">
+        <div class="off-strip"></div>
+        <div class="off-badge">📦 Team</div>
+        <div class="off-pct">30%</div>
+        <div class="off-name">Team Order</div>
+        <p class="off-desc">Kitting out a squad? Orders above ₹15,000 unlock 30% bulk savings.</p>
+        <button class="off-cta-g" onclick="explode(this,null,'BULK30')">Team Order</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SOCIAL WALL (SKILL.md §15.5 — <a> wrapper pattern) ══ -->
+<section style="background:#000;border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">Community</div>
+    <h2 class="stitle">Tag Us <span class="ac">@ApexPerform</span></h2>
+    <div class="ig-grid">
+      <!-- SKILL.md §15.5: use <a> wrapper, target="_blank", rel="noopener noreferrer" -->
+      <a class="ig-card" href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer"><div class="ig-inner">⬛⚡</div><div class="ig-ovl"><span>Blackout<br>Training Day</span></div></a>
+      <a class="ig-card" href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer"><div class="ig-inner">🔴💪</div><div class="ig-ovl"><span>Crimson<br>Leg Day</span></div></a>
+      <a class="ig-card" href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer"><div class="ig-inner">🔵❄️</div><div class="ig-ovl"><span>Ice Volt<br>Morning Run</span></div></a>
+      <a class="ig-card" href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer"><div class="ig-inner">🏋️⚡</div><div class="ig-ovl"><span>No Limits<br>#ApexPerform</span></div></a>
+      <a class="ig-card" href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer"><div class="ig-inner">🎯🔥</div><div class="ig-ovl"><span>Focus Mode<br>Collection Drop</span></div></a>
+      <a class="ig-card" href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer"><div class="ig-inner">🚀💥</div><div class="ig-ovl"><span>New Season<br>Just Dropped</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══ -->
+<section id="reviews" style="background:var(--s1);border-top:1px solid var(--bdr)">
+  <div class="sec rv">
+    <div class="eyebrow">Athletes Say</div>
+    <h2 class="stitle">The Apex <span class="ac">Community.</span></h2>
+    <div class="rev-grid rg">
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><blockquote>"Blackout Edition is the best kit I've worn. DryTech actually works — I was training in 35°C and stayed completely dry. Never going back."</blockquote><div class="rev-auth"><div class="rev-av" style="background:linear-gradient(135deg,var(--Y),#8a9200)">RS</div><div><div class="rev-name">Rohan Sharma</div><div class="rev-role">Marathon Runner, Delhi</div></div></div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><blockquote>"The compression on Crimson Strike is unlike anything I've tried. My recovery time between sessions dropped noticeably. Worth every rupee."</blockquote><div class="rev-auth"><div class="rev-av" style="background:linear-gradient(135deg,#ff6b8a,#ff3060)">PK</div><div><div class="rev-name">Priya Kapoor</div><div class="rev-role">CrossFit Coach, Mumbai</div></div></div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><blockquote>"Ice Volt for my winter morning runs is perfect. The CoolFlow venting keeps my core temp stable and the reflective strips are a lifesaver at 5am."</blockquote><div class="rev-auth"><div class="rev-av" style="background:linear-gradient(135deg,#00bfff,#0080dd)">AV</div><div><div class="rev-name">Arjun Verma</div><div class="rev-role">Triathlete, Pune</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta-sec rv">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <span class="cta-lbl">Your Move</span>
+    <h2 class="cta-h">Train With<br>No Limits.</h2>
+    <p class="cta-sub">Join 50,000+ Apex athletes. First order 20% off — no code needed.</p>
+    <button class="btn-pri" style="font-size:.9rem;padding:1rem 3rem" onclick="explode(this,null,'LAUNCH20')">Shop Apex Now ⚡</button>
+  </div>
+</section>
+
+<!-- ══ FOOTER (SKILL.md §15 — all external links wired) ══ -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="flogo">APEX⚡</div>
+      <p class="fbp">Performance apparel engineered for athletes who push past every boundary.</p>
+      <!-- SKILL.md §15.3: target="_blank" rel="noopener noreferrer" title on ALL social icons -->
+      <div class="fsocs">
+        <a class="fsoc" href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer" title="Instagram">📸</a>
+        <a class="fsoc" href="https://twitter.com/yourbrand/" target="_blank" rel="noopener noreferrer" title="X / Twitter">𝕏</a>
+        <a class="fsoc" href="https://www.youtube.com/@yourbrand/" target="_blank" rel="noopener noreferrer" title="YouTube">▶</a>
+        <a class="fsoc" href="https://www.facebook.com/yourbrand/" target="_blank" rel="noopener noreferrer" title="Facebook">f</a>
+      </div>
+    </div>
+    <div class="fcol"><h4>Shop</h4><ul>
+      <li><a href="#products" onclick="showPanel('black')">Blackout Edition</a></li>
+      <li><a href="#products" onclick="showPanel('red')">Crimson Strike</a></li>
+      <li><a href="#products" onclick="showPanel('white')">Ice Volt</a></li>
+    </ul></div>
+    <div class="fcol"><h4>Company</h4><ul>
+      <li><a href="#">About Us</a></li>
+      <!-- SKILL.md §15.4: no real Careers/Press page? Route to Instagram -->
+      <li><a href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer">Careers</a></li>
+      <li><a href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer">Press</a></li>
+    </ul></div>
+    <div class="fcol"><h4>Help</h4><ul>
+      <li><a href="#">Track Order</a></li>
+      <li><a href="#">Returns</a></li>
+      <li><a href="#offers">Offers</a></li>
+      <!-- Contact routes to Instagram DMs — SKILL.md §15.4 -->
+      <li><a href="https://www.instagram.com/yourbrand/" target="_blank" rel="noopener noreferrer">Contact</a></li>
+    </ul></div>
+  </div>
+  <div class="fb">
+    <p>© 2025 Apex Performance Apparel. All rights reserved.</p>
+    <div style="display:flex;gap:1.5rem">
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Returns Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CHECKOUT MODAL ══ -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="mhd"><h3>Order Apex ⚡</h3><button class="mx" onclick="closeCheckout()">✕</button></div>
+    <div class="mb">
+      <div class="mstep active" id="ms1">
+        <div class="ml">Choose Collection</div>
+        <div class="fpkg">
+          <div class="fpc" onclick="pickF(this,'Blackout Edition')"><span class="fe">⬛</span><span class="fn">Blackout<br>Edition</span></div>
+          <div class="fpc" onclick="pickF(this,'Crimson Strike')"><span class="fe">🔴</span><span class="fn">Crimson<br>Strike</span></div>
+          <div class="fpc" onclick="pickF(this,'Ice Volt')"><span class="fe">🔵</span><span class="fn">Ice<br>Volt</span></div>
+        </div>
+        <div class="qrow"><span class="qlbl">Quantity</span><div class="qc"><button onclick="dq(-1)">−</button><input class="qv" id="qv" value="1" readonly><button onclick="dq(1)">+</button></div></div>
+        <div class="ml">Apply Offer</div>
+        <div class="opills">
+          <div class="opill" onclick="pickO(this,'LAUNCH20','20% First Order')">LAUNCH20</div>
+          <div class="opill" onclick="pickO(this,'COMBO3','Buy 2 Get 1 Free')">COMBO3</div>
+          <div class="opill" onclick="pickO(this,'BULK30','30% Team')">BULK30</div>
+          <div class="opill" onclick="pickO(this,'STUDENT10','10% Student')">STUDENT10</div>
+        </div>
+        <div class="pbox">
+          <div class="prow"><span>Apex × <span id="pq">1</span></span><span>₹<span id="pb">2499</span></span></div>
+          <div class="prow" id="pdr" style="display:none"><span id="pdl">Discount</span><span class="gn" id="pda"></span></div>
+          <div class="prow"><span>Delivery</span><span id="pdel">FREE</span></div>
+          <div class="prow tot"><span>Total</span><span>₹<span id="pt">2499</span></span></div>
+        </div>
+        <button class="mpay" onclick="toS2()">Continue →</button>
+      </div>
+      <div class="mstep" id="ms2">
+        <div class="ml">Delivery Details</div>
+        <div class="fg">
+          <div class="ff"><label>First Name</label><input id="i_fn" placeholder="Rohan"></div>
+          <div class="ff"><label>Last Name</label><input id="i_ln" placeholder="Sharma"></div>
+          <div class="ff full"><label>Email</label><input id="i_em" type="email" placeholder="rohan@email.com"></div>
+          <div class="ff full"><label>Phone</label><input id="i_ph" placeholder="+91 98765 43210"></div>
+          <div class="ff full"><label>Address</label><input id="i_ad" placeholder="Flat, Street, Area"></div>
+          <div class="ff"><label>City</label><input placeholder="New Delhi"></div>
+          <div class="ff"><label>PIN Code</label><input placeholder="110001"></div>
+        </div>
+        <div class="ml" style="margin-top:1rem">Payment Method</div>
+        <div class="pmeth">
+          <label class="pmo act" id="pmU"><input type="radio" name="pm" value="upi" checked onchange="selPM(this,'pmU')"><span>📱 UPI / GPay</span></label>
+          <label class="pmo" id="pmC"><input type="radio" name="pm" value="card" onchange="selPM(this,'pmC')"><span>💳 Credit / Debit Card</span></label>
+          <label class="pmo" id="pmD"><input type="radio" name="pm" value="cod" onchange="selPM(this,'pmD')"><span>💵 Cash on Delivery</span></label>
+        </div>
+        <div id="upiF"><div class="ff"><label>UPI ID</label><input placeholder="name@upi"></div></div>
+        <div id="cardF" style="display:none"><div class="fg"><div class="ff full"><label>Card No.</label><input placeholder="4242 4242 4242 4242" maxlength="19" oninput="fCard(this)"></div><div class="ff"><label>Expiry</label><input placeholder="MM / YY" maxlength="7" oninput="fExp(this)"></div><div class="ff"><label>CVV</label><input placeholder="•••" maxlength="3" type="password"></div></div></div>
+        <div class="spill">
+          <div><div style="font-family:'Barlow Condensed';font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:.15rem">Order Total</div><div class="spill-t">₹<span id="s2t">2499</span></div></div>
+          <div style="text-align:right"><div id="s2fl" style="font-family:'Barlow Condensed';font-weight:700">—</div><div id="s2sv" style="font-size:.75rem;color:var(--Y)"></div></div>
+        </div>
+        <button class="mpay" onclick="pay()" id="payBtn">⚡ Place Order &amp; Pay</button>
+        <button class="mback" onclick="toS1()">← Back</button>
+      </div>
+      <div class="mstep" id="ms3">
+        <div class="succ"><span class="succ-tick">✅</span><h3>Order Confirmed!</h3><p>Your Apex gear is on its way.</p><span class="hl" id="smsg"></span><p style="margin-top:.75rem;color:rgba(255,255,255,.35)">Delivery in <strong style="color:#fff">3–5 working days</strong></p><button class="mpay" style="max-width:200px;margin:2rem auto 0" onclick="closeCheckout()">Done ⚡</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── SVG PRODUCT BUILDER (SKILL.md §6) ──
+   Apparel silhouette — demonstrates the uid-prefix pattern
+   without being a beverage can */
+function buildShirt(uid, primary, secondary, accent, logo){
+  return `<defs>
+  <linearGradient id="${uid}Bd" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="${primary}" stop-opacity=".7"/>
+    <stop offset="50%" stop-color="${primary}"/>
+    <stop offset="100%" stop-color="${primary}" stop-opacity=".7"/>
+  </linearGradient>
+  <filter id="${uid}Sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,.8)"/>
+  </filter>
+  <filter id="${uid}Gl"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <linearGradient id="${uid}Sh2" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="rgba(0,0,0,.3)"/><stop offset="30%" stop-color="rgba(0,0,0,0)"/>
+    <stop offset="70%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,.25)"/>
+  </linearGradient>
+</defs>
+<!-- Shadow -->
+<ellipse cx="100" cy="295" rx="55" ry="8" fill="rgba(0,0,0,.5)"/>
+<!-- Body -->
+<path d="M30,80 L10,130 L35,140 L35,270 L165,270 L165,140 L190,130 L170,80 L140,70 Q100,50 60,70 Z"
+  fill="url(#${uid}Bd)" filter="url(#${uid}Sh)"/>
+<!-- Collar -->
+<path d="M70,70 Q100,90 130,70 Q115,55 100,52 Q85,55 70,70Z" fill="${secondary}"/>
+<!-- Sleeve left -->
+<path d="M30,80 L10,130 L35,140 L35,110 Z" fill="${secondary}" opacity=".8"/>
+<!-- Sleeve right -->
+<path d="M170,80 L190,130 L165,140 L165,110 Z" fill="${secondary}" opacity=".8"/>
+<!-- Accent stripe -->
+<rect x="35" y="145" width="130" height="4" fill="${accent}" opacity=".7"/>
+<!-- Side shading -->
+<path d="M30,80 L10,130 L35,140 L35,270 L165,270 L165,140 L190,130 L170,80 L140,70 Q100,50 60,70 Z" fill="url(#${uid}Sh2)"/>
+<!-- Logo text -->
+<text x="100" y="215" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="28" fill="${accent}" filter="url(#${uid}Gl)" letter-spacing="2">${logo}</text>
+<text x="100" y="235" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="10" fill="${accent}" letter-spacing="6" opacity=".7">PERFORMANCE</text>`;
+}
+
+const PRODUCTS = {
+  black: { primary:'#1a1a1a', secondary:'#111', accent:'#E9FF57', logo:'APEX' },
+  red:   { primary:'#2a0808', secondary:'#3d1515', accent:'#ff6b8a', logo:'APEX' },
+  white: { primary:'#0a1828', secondary:'#153050', accent:'#00bfff', logo:'APEX' },
+};
+
+// Render all product SVGs with unique uids — SKILL.md §6.1
+function renderAll(){
+  const targets = [
+    ['heroProd',  'black', 'hc'],
+    ['prod-black','black', 'pp_bk'],['prod-red','red','pp_rd'],['prod-white','white','pp_wh'],
+    ['pgp-black', 'black', 'pg_bk'],['pgp-red', 'red', 'pg_rd'],['pgp-white','white','pg_wh'],
+  ];
+  targets.forEach(([id, variant, uid])=>{
+    const el = document.getElementById(id);
+    if(el){
+      const{primary,secondary,accent,logo}=PRODUCTS[variant];
+      el.innerHTML = buildShirt(uid, primary, secondary, accent, logo);
+    }
+  });
+}
+renderAll();
+
+/* ── 3D TILT (SKILL.md §5.4) ── */
+const tiltWrap = document.getElementById('prodTiltWrap');
+document.addEventListener('mousemove', e=>{
+  const cx=window.innerWidth/2, cy=window.innerHeight/2;
+  const dx=(e.clientX-cx)/cx, dy=(e.clientY-cy)/cy;
+  tiltWrap.style.transform=`rotateY(${dx*18}deg) rotateX(${-dy*12}deg) translateY(${-Math.abs(dy)*8}px)`;
+  tiltWrap.style.transition='transform .1s linear';
+  document.querySelector('.hero-prod-glow').style.transform=`translateX(calc(-50% + ${dx*20}px))`;
+});
+tiltWrap.addEventListener('mouseleave',()=>{
+  tiltWrap.style.transform='';
+  tiltWrap.style.transition='transform .6s var(--ease)';
+});
+
+/* ── AMBIENT PARTICLES (SKILL.md §5.6) ── */
+(function(){
+  const c=document.getElementById('particles');
+  const cols=['#E9FF57','#ff6b8a','#00bfff','#ffffff','#E9FF57'];
+  function mk(){
+    const p=document.createElement('div');p.className='pt';
+    const sz=Math.random()*4+1,dur=Math.random()*10+8;
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};left:${Math.random()*100}%;bottom:-10px;--dx:${(Math.random()-.5)*200}px;animation-duration:${dur}s;animation-delay:${Math.random()*8}s`;
+    c.appendChild(p);
+    setTimeout(()=>p.remove(),(dur+8)*1000);
+  }
+  setInterval(mk,600);
+})();
+
+/* ── NAV ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('solid',scrollY>60);
+  const fp=document.getElementById('products');
+  if(fp) document.getElementById('sticky-bar').classList.toggle('visible',fp.getBoundingClientRect().top<0&&fp.getBoundingClientRect().bottom>100);
+});
+document.getElementById('hamBtn').addEventListener('click',()=>document.getElementById('mobMenu').classList.toggle('open'));
+function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
+
+/* ── REVEAL (SKILL.md §5.2) ── */
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv,.rg').forEach(el=>ro.observe(el));
+
+/* ── PRODUCT PANEL SWITCHER (SKILL.md §5.7) ── */
+let curPanel='black';
+function showPanel(key,btn){
+  curPanel=key;
+  document.querySelectorAll('.prod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pnav-btn').forEach(b=>b.classList.remove('active'));
+  const panel=document.getElementById('pp-'+key);
+  if(!panel)return;
+  panel.style.opacity='0';
+  panel.classList.add('active');
+  requestAnimationFrame(()=>{
+    panel.style.transition='opacity .4s ease';
+    panel.style.opacity='1';
+    const wrap=panel.querySelector('.pp-prod-wrap');
+    if(wrap){
+      wrap.style.cssText='transform:scale(.82) translateY(40px);opacity:0;transition:transform .55s cubic-bezier(.16,1,.3,1),opacity .45s ease';
+      requestAnimationFrame(()=>{wrap.style.transform='';wrap.style.opacity='1'});
+    }
+  });
+  if(btn) btn.classList.add('active');
+  else{const idx={black:0,red:1,white:2}[key];document.querySelectorAll('.pnav-btn')[idx]?.classList.add('active')}
+  const names={black:'Blackout Edition',red:'Crimson Strike',white:'Ice Volt'};
+  document.getElementById('sbName').textContent=names[key];
+}
+
+/* ── PARTICLE EXPLOSION (SKILL.md §5.5) ── */
+const EXP_COLORS={black:'#E9FF57',red:'#ff6b8a',white:'#00bfff'};
+function explode(btn,product,code){
+  const rect=btn.getBoundingClientRect();
+  const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
+  const col=EXP_COLORS[curPanel]||'#E9FF57';
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');p.className='px-p';
+    const ang=Math.random()*Math.PI*2, dist=80+Math.random()*120, sz=4+Math.random()*8;
+    p.style.cssText=`left:${cx}px;top:${cy}px;width:${sz}px;height:${sz}px;background:${col};--pxX:${Math.cos(ang)*dist}px;--pxY:${Math.sin(ang)*dist}px;animation-duration:${.5+Math.random()*.4}s;animation-delay:${Math.random()*.1}s`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),900);
+  }
+  const dot=document.getElementById('cartDot');
+  dot.textContent=parseInt(dot.textContent)+1;
+  dot.classList.remove('bump');void dot.offsetWidth;dot.classList.add('bump');
+  setTimeout(()=>openCheckout(product,code),150);
+}
+
+/* ── FOMO COUNTER (SKILL.md §7.2) ── */
+let base=312;
+setInterval(()=>{
+  if(Math.random()<.3){
+    base+=Math.floor(Math.random()*3)+1;
+    document.getElementById('fomoNum').textContent=base;
+    document.getElementById('buyerCount').textContent=base;
+  }
+},4000);
+
+/* ── COUNTDOWN (SKILL.md §7.3) ── */
+(function(){
+  const end=Date.now()+2*60*60*1000;
+  function tick(){
+    const rem=Math.max(0,end-Date.now());
+    const f=n=>String(n).padStart(2,'0');
+    const h=Math.floor(rem/3600000),m=Math.floor((rem%3600000)/60000),s=Math.floor((rem%60000)/1000);
+    document.getElementById('countdown').textContent=`${f(h)}:${f(m)}:${f(s)}`;
+    document.getElementById('t-h').textContent=f(h);
+    document.getElementById('t-m').textContent=f(m);
+    document.getElementById('t-s').textContent=f(s);
+    if(rem>0)setTimeout(tick,1000);
+  }
+  tick();
+})();
+
+/* ── CHECKOUT ── */
+const st={f:null,q:1,o:null,ol:''};
+const BASE=2499;
+function calc(){
+  let b=BASE*st.q,d=0;
+  if(st.o==='LAUNCH20')d=Math.round(b*.2);
+  if(st.o==='COMBO3'&&st.q>=2)d=BASE;
+  if(st.o==='BULK30'&&b>=15000)d=Math.round(b*.3);
+  if(st.o==='STUDENT10')d=Math.round(b*.1);
+  return{b,d,t:b-d};
+}
+function upUI(){
+  const{b,d,t}=calc();
+  document.getElementById('pq').textContent=st.q;
+  document.getElementById('pb').textContent=b.toLocaleString('en-IN');
+  document.getElementById('pt').textContent=t.toLocaleString('en-IN');
+  document.getElementById('s2t').textContent=t.toLocaleString('en-IN');
+  document.getElementById('pdel').textContent=t>1000?'FREE':'₹149';
+  const dr=document.getElementById('pdr');
+  if(d>0){dr.style.display='flex';document.getElementById('pdl').textContent=st.ol;document.getElementById('pda').textContent='−₹'+d.toLocaleString('en-IN');}
+  else dr.style.display='none';
+  document.getElementById('s2fl').textContent=st.f?st.f+' ×'+st.q:'—';
+  document.getElementById('s2sv').textContent=d>0?'Saving ₹'+d.toLocaleString('en-IN'):'';
+}
+function pickF(el,n){document.querySelectorAll('.fpc').forEach(f=>f.classList.remove('sel'));el.classList.add('sel');st.f=n;upUI()}
+function dq(d){st.q=Math.max(1,Math.min(10,st.q+d));document.getElementById('qv').value=st.q;upUI()}
+function pickO(el,c,l){document.querySelectorAll('.opill').forEach(p=>p.classList.remove('sel'));if(st.o===c){st.o=null;st.ol=''}else{st.o=c;st.ol=l;el.classList.add('sel')}upUI()}
+function openCheckout(product,code){
+  ['ms1','ms2','ms3'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('ms1').classList.add('active');
+  if(product){st.f=product;document.querySelectorAll('.fpc').forEach(p=>{p.classList.remove('sel');if(p.querySelector('.fn').textContent.includes(product.split(' ')[0]))p.classList.add('sel')})}
+  if(code){const lm={LAUNCH20:'20% First Order',COMBO3:'Buy 2 Get 1 Free',BULK30:'30% Team',STUDENT10:'10% Student'};st.o=code;st.ol=lm[code]||code;document.querySelectorAll('.opill').forEach(p=>{p.classList.remove('sel');if(p.textContent.includes(code))p.classList.add('sel')})}
+  upUI();
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow=''}
+document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeCheckout()});
+function toS2(){if(!st.f){alert('Please pick a collection 👕');return}document.getElementById('ms1').classList.remove('active');document.getElementById('ms2').classList.add('active');upUI()}
+function toS1(){document.getElementById('ms2').classList.remove('active');document.getElementById('ms1').classList.add('active')}
+function selPM(r,id){['pmU','pmC','pmD'].forEach(i=>document.getElementById(i).classList.remove('act'));document.getElementById(id).classList.add('act');document.getElementById('cardF').style.display=r.value==='card'?'block':'none';document.getElementById('upiF').style.display=r.value==='upi'?'block':'none'}
+function fCard(i){let v=i.value.replace(/\D/g,'').substring(0,16);i.value=v.replace(/(.{4})/g,'$1 ').trim()}
+function fExp(i){let v=i.value.replace(/\D/g,'').substring(0,4);if(v.length>=2)v=v.substring(0,2)+' / '+v.substring(2);i.value=v}
+function pay(){
+  const n=document.getElementById('i_fn').value.trim(),e=document.getElementById('i_em').value.trim(),a=document.getElementById('i_ad').value.trim();
+  if(!n||!e||!a){alert('Please fill name, email & address.');return}
+  const btn=document.getElementById('payBtn');btn.textContent='Processing ⚡...';btn.disabled=true;
+  setTimeout(()=>{
+    document.getElementById('ms2').classList.remove('active');document.getElementById('ms3').classList.add('active');
+    const{d}=calc();document.getElementById('smsg').textContent=d>0?`You saved ₹${d.toLocaleString('en-IN')}! 🎉`:'';
+    btn.textContent='⚡ Place Order & Pay';btn.disabled=false;
+  },2000);
+}
+upUI();
+</script>
+</body>
+</html>
