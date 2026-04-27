@@ -41,25 +41,6 @@ For detailed usage instructions, see [website-builder-SKILL.md](website-builder-
 
 ---
 
-## 🛠️ Using the Website Builder Skill
-
-The `website-builder-SKILL.md` file provides detailed guidance on how to effectively use the Website Builder Skill to create professional, multi-section websites. It includes:
-
-1. **Purpose and Conversion Goals**: Understand the primary action your website should drive.
-2. **Audience and Brand Tone**: Tailor the design to your target audience and brand identity.
-3. **Design Directions**: Choose from predefined aesthetic styles to match your project needs.
-4. **Content Inventory**: Plan your website's structure, including products, services, testimonials, and more.
-
-### Steps to Use:
-
-1. Refer to the `website-builder-SKILL.md` file for best practices and design principles.
-2. Open `index.html` to start building your website.
-3. Customize the content and styles as per your requirements.
-
-For more details, see the [Website Builder Skill Documentation](website-builder-SKILL.md).
-
----
-
 ## 🤝 Contributing
 
 We welcome contributions! Please open issues or submit pull requests to help improve this project.
@@ -75,6 +56,12 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 💡 Inspiration
 
 Created to make website building accessible, fast, and fun for everyone. Unleash your creativity and bring your ideas to life!
+
+---
+
+## 🌐 Example Website
+
+The website [https://victor369basu.github.io/victorenergy.github.io/](https://victor369basu.github.io/victorenergy.github.io/) was built using this skill and repository as a showcase of its capabilities.
 
 ---
 
